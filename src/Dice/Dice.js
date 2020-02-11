@@ -20,13 +20,9 @@ class Dice extends Component {
   componentDidMount() {
     console.log(this)
     let camera, scene, renderer;
-    let geometry, material, mesh;
+    let geometry, material, mesh, line;
     let lineColor = this.state.color
 
-    init();
-    animate();
-
-    function init() {
       // Camera
       camera = new THREE.PerspectiveCamera(
         70,
@@ -37,33 +33,42 @@ class Dice extends Component {
       camera.position.z = 5;
       scene = new THREE.Scene();
       
-      // Rainbow
-      let colors = []
-      var color = new THREE.Color();
-				for ( var i = 0, l = 365; i < l; i ++ ) {
-					color.setHSL( i / l, 1.0, 0.5 );
-					colors.push( color.r, color.g, color.b );
-        }
         
       // Polygon
       let poly = new THREE.IcosahedronGeometry(2, 0)
       var edges = new THREE.EdgesGeometry( poly );
       // const lineColor = this.state.color
-      var line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial({ color: lineColor }) );
-      // scene.add( line );
+      line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial({ color: lineColor }) );
+      scene.add(line);
 
       // Shapes
       geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
       let d20 = new THREE.IcosahedronGeometry(1, 0)
-      material = new THREE.MeshNormalMaterial({ wireframe: true});
+      material = new THREE.MeshNormalMaterial({ wireframe: false});
       mesh = new THREE.Mesh(d20, material);
       scene.add(mesh);
+
+
+      //GEOMETRY
+      var geometry1 = new THREE.BufferGeometry();
+      var color = new THREE.Color();
+      var colors1 = [];
+
+
+      for (let i = 0; i < 10; i++) {
+        color.setHSL( 0.6, 1.0, Math.max( 0, - 1 / 200 ) + 0.5 );
+        colors1.push( color.r, color.g, color.b );
+      }
+
+      geometry1.setAttribute( 'color', new THREE.Float32BufferAttribute( colors1, 3 ) );
+
 
       // Render
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
-    }
+
+      animate()
 
     function animate() {
       requestAnimationFrame(animate);
@@ -71,10 +76,11 @@ class Dice extends Component {
       mesh.rotation.x += 0.01;
       mesh.rotation.y += 0.02;
 
-      // material.color = 'blue'
+      line.rotation.x -= 0.01;
 
       renderer.render(scene, camera);
     }
+
   }
 
 
