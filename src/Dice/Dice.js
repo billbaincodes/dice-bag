@@ -18,7 +18,6 @@ class Dice extends Component {
 
 
   componentDidMount() {
-    console.log(this)
     let camera, scene, renderer;
     let geometry, material, mesh, line;
     let lineColor = this.state.color
@@ -41,6 +40,10 @@ class Dice extends Component {
       line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial({ color: lineColor }) );
       // scene.add(line);
 
+
+
+
+
       // Shapes
       geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
       let icosa = new THREE.IcosahedronGeometry(1, 0);
@@ -48,19 +51,50 @@ class Dice extends Component {
       let tetra = new THREE.TetrahedronGeometry(1, 0);
       let octa = new THREE.OctahedronGeometry(1, 0);
       let cube = new THREE.BoxGeometry(1, 0);
+      let trapezTop = new THREE.ConeGeometry(2, 2, 6)
+      let trapezBot = new THREE.ConeGeometry(2, 2, 6)
+      var trapez = new THREE.Geometry();
+
+
+
+      icosa.translate(0, 0, 0)
       dodeca.translate(-5, 4, 1)
-      tetra.translate(-5, 2, -3)
+      tetra.translate(-3, 2, 2)
+      octa.translate(5, 0, 0)
+      cube.translate(-5, 0, 0)
+      trapezBot.rotateX(Math.PI)
+      trapezTop.translate(0, 1, 0)
+      trapezBot.translate(0, -1, 0)
+
+
       material = new THREE.MeshNormalMaterial({ wireframe: false});
+      let d00top = new THREE.Mesh(trapezTop, material)
+      let d00bot = new THREE.Mesh(trapezBot, material)
       let d20 = new THREE.Mesh(icosa, material);
       let d12 = new THREE.Mesh(dodeca, material);
       let d8 = new THREE.Mesh(octa, material);
       let d6 = new THREE.Mesh(cube, material);
       let d4 = new THREE.Mesh(tetra, material);
-      scene.add(d20);
-      scene.add(d12);
-      scene.add(d8);
-      scene.add(d6);
-      scene.add(d4);
+
+
+      d00top.updateMatrix(); // as needed
+      trapez.merge(d00top.geometry, d00top.matrix);
+
+      d00bot.updateMatrix(); // as needed
+      trapez.merge(d00bot.geometry, d00bot.matrix);
+      // Once merged, create a mesh from the single geometry and add to the scene:
+
+      // var material = new THREE.MeshPhongMaterial({color: 0xFF0000});
+      var mezh = new THREE.Mesh(trapez, material);
+      scene.add(mezh);
+
+
+
+      // scene.add(d20);
+      // scene.add(d12);
+      // scene.add(d8);
+      // scene.add(d6);
+      // scene.add(d4);
 
 
       //GEOMETRY
@@ -89,6 +123,12 @@ class Dice extends Component {
 
       d20.rotation.x += 0.01;
       d20.rotation.y += 0.02;
+
+      // d00.rotation.y += 0.01
+
+      // d4.rotation.y += 0.02;
+
+      mezh.rotation.y += 0.01
 
       d12.rotateX += 0.41;
 
