@@ -30,7 +30,7 @@ class Dice extends Component {
         0.01,
         10
       );
-      camera.position.z = 5;
+      camera.position.z = 10;
       scene = new THREE.Scene();
       
         
@@ -39,14 +39,28 @@ class Dice extends Component {
       var edges = new THREE.EdgesGeometry( poly );
       // const lineColor = this.state.color
       line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial({ color: lineColor }) );
-      scene.add(line);
+      // scene.add(line);
 
       // Shapes
       geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-      let d20 = new THREE.IcosahedronGeometry(1, 0)
+      let icosa = new THREE.IcosahedronGeometry(1, 0);
+      let dodeca = new THREE.DodecahedronGeometry(1, 0);
+      let tetra = new THREE.TetrahedronGeometry(1, 0);
+      let octa = new THREE.OctahedronGeometry(1, 0);
+      let cube = new THREE.BoxGeometry(1, 0);
+      dodeca.translate(-5, 4, 1)
+      tetra.translate(-5, 2, -3)
       material = new THREE.MeshNormalMaterial({ wireframe: false});
-      mesh = new THREE.Mesh(d20, material);
-      scene.add(mesh);
+      let d20 = new THREE.Mesh(icosa, material);
+      let d12 = new THREE.Mesh(dodeca, material);
+      let d8 = new THREE.Mesh(octa, material);
+      let d6 = new THREE.Mesh(cube, material);
+      let d4 = new THREE.Mesh(tetra, material);
+      scene.add(d20);
+      scene.add(d12);
+      scene.add(d8);
+      scene.add(d6);
+      scene.add(d4);
 
 
       //GEOMETRY
@@ -73,8 +87,10 @@ class Dice extends Component {
     function animate() {
       requestAnimationFrame(animate);
 
-      mesh.rotation.x += 0.01;
-      mesh.rotation.y += 0.02;
+      d20.rotation.x += 0.01;
+      d20.rotation.y += 0.02;
+
+      d12.rotateX += 0.41;
 
       line.rotation.x -= 0.01;
 
@@ -85,11 +101,13 @@ class Dice extends Component {
 
 
   render() {
-    return <div>
-    ⏣ become one with inner selfness ⏣
-    <button onClick={() => this.colorChanger()} >Clicker</button>
-    </div>;
-  }
+    return(  
+      <div>
+        ⏣ become one with inner selfness ⏣
+        <button onClick={() => this.colorChanger()} >Clicker</button>
+      </div>
+    
+  )}
 }
 
 export default Dice;
