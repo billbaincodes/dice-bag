@@ -29,7 +29,7 @@ class Dice extends Component {
         1,
         100
       );
-      camera.position.z = 9;
+      camera.position.z = 8;
       scene = new THREE.Scene();
       
         
@@ -39,8 +39,6 @@ class Dice extends Component {
       // const lineColor = this.state.color
       line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial({ color: lineColor }) );
       // scene.add(line);
-
-
 
 
 
@@ -68,9 +66,8 @@ class Dice extends Component {
 
 
       material = new THREE.MeshNormalMaterial({ wireframe: false });
-      var phong = new THREE.MeshPhongMaterial({color: 0xFF0000});
-      let d00top = new THREE.Mesh(trapezTop, material)
-      let d00bot = new THREE.Mesh(trapezBot, material)
+      let d10top = new THREE.Mesh(trapezTop, material)
+      let d10bot = new THREE.Mesh(trapezBot, material)
       let d20 = new THREE.Mesh(icosa, material);
       let d12 = new THREE.Mesh(dodeca, material);
       let d8 = new THREE.Mesh(octa, material);
@@ -78,11 +75,30 @@ class Dice extends Component {
       let d4 = new THREE.Mesh(tetra, material);
 
 
-      d00top.updateMatrix(); // as needed
-      trapez.merge(d00top.geometry, d00top.matrix);
 
-      d00bot.updateMatrix(); // as needed
-      trapez.merge(d00bot.geometry, d00bot.matrix);
+      //Lathe
+      var points = [
+        new THREE.Vector2(0, -1),
+        new THREE.Vector2(1, 0),
+        new THREE.Vector2(2, 1),
+        new THREE.Vector2(1, 2),
+        new THREE.Vector2(0, 3),
+      ];
+      var lathe = new THREE.LatheGeometry( points );
+      // var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+      var lathe = new THREE.Mesh( lathe, material );
+      scene.add( lathe );
+
+
+
+
+
+
+      d10top.updateMatrix(); // as needed
+      trapez.merge(d10top.geometry, d10top.matrix);
+
+      d10bot.updateMatrix(); // as needed
+      trapez.merge(d10bot.geometry, d10bot.matrix);
 
       trapez.translate(-8, 6, 0)
       // Once merged, create a mesh from the single geometry and add to the scene:
@@ -93,7 +109,7 @@ class Dice extends Component {
 
 
 
-      scene.add(d20);
+      // scene.add(d20);
       scene.add(d12);
       scene.add(d8);
       scene.add(d6);
@@ -127,12 +143,15 @@ class Dice extends Component {
       d20.rotation.x += 0.01;
       d20.rotation.y += 0.02;
 
-      // d00.rotation.y += 0.01
+      // d10.rotation.y += 0.01
 
       // d4.rotation.y += 0.02;
 
       // mezh.rotation.y += 0.01
       // mezh.rotation.x += 0.01
+
+      lathe.rotation.x += 0.01;
+      lathe.rotation.y += 0.01;
 
       d12.rotateX += 0.41;
 
