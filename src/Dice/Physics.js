@@ -52,8 +52,6 @@ class Physics extends Component {
 
       plane.addEventListener( 'collision');
 
-
-
       requestAnimationFrame( render );
     };
     

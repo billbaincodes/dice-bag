@@ -29,7 +29,7 @@ class Dice extends Component {
         1,
         100
       );
-      camera.position.z = 8;
+      camera.position.z = 12;
       scene = new THREE.Scene();
       
         
@@ -38,7 +38,7 @@ class Dice extends Component {
       var edges = new THREE.EdgesGeometry( poly );
       // const lineColor = this.state.color
       line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial({ color: lineColor }) );
-      // scene.add(line);
+      scene.add(line);
 
 
 
@@ -74,23 +74,6 @@ class Dice extends Component {
       let d6 = new THREE.Mesh(cube, material);
       let d4 = new THREE.Mesh(tetra, material);
 
-
-
-      //Lathe
-      var points = [
-        new THREE.Vector2(0, -1),
-        new THREE.Vector2(1, 0),
-        new THREE.Vector2(2, 1),
-        new THREE.Vector2(1, 2),
-        new THREE.Vector2(0, 3),
-      ];
-      var lathe = new THREE.LatheGeometry( points );
-      // var material = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-      var lathe = new THREE.Mesh( lathe, material );
-      scene.add( lathe );
-
-
-
       d10top.updateMatrix(); // as needed
       trapez.merge(d10top.geometry, d10top.matrix);
 
@@ -100,10 +83,9 @@ class Dice extends Component {
       trapez.translate(-8, 6, 0)
       // Once merged, create a mesh from the single geometry and add to the scene:
 
-      
+
       var mezh = new THREE.Mesh(trapez, material);
       scene.add(mezh);
-
 
 
       // scene.add(d20);
@@ -139,16 +121,6 @@ class Dice extends Component {
 
       d20.rotation.x += 0.01;
       d20.rotation.y += 0.02;
-
-      // d10.rotation.y += 0.01
-
-      // d4.rotation.y += 0.02;
-
-      // mezh.rotation.y += 0.01
-      // mezh.rotation.x += 0.01
-
-      lathe.rotation.x += 0.01;
-      lathe.rotation.y += 0.01;
 
       d12.rotateX += 0.41;
 
