@@ -6,7 +6,7 @@ import Physics from './Dice/Physics'
 function App() {
   return (
     <div className="App">
-        <Dice />
+        {/* <Dice /> */}
         <Physics />
         <h2>header here</h2>
     </div>

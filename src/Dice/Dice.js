@@ -91,9 +91,6 @@ class Dice extends Component {
 
 
 
-
-
-
       d10top.updateMatrix(); // as needed
       trapez.merge(d10top.geometry, d10top.matrix);
 
