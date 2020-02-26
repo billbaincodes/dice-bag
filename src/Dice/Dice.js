@@ -5,14 +5,18 @@ class Dice extends Component {
 
 
   state = {
-    color: 'pink'
+    color: 'green'
   }
+
+  scene
+  camera
+  renderer
 
   colorChanger(){
     console.log('changin colors')
     console.log('this', this)
     this.setState({
-      color: 'skyblue'
+      color: 'blue'
     })
   }
 
@@ -32,11 +36,11 @@ class Dice extends Component {
       camera.position.z = 12;
       scene = new THREE.Scene();
       
-        
       // Polygon
       let poly = new THREE.IcosahedronGeometry(2, 0)
       var edges = new THREE.EdgesGeometry( poly );
-      // const lineColor = this.state.color
+      // lineColor = this.state.color
+      console.log({ lineColor })
       line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial({ color: lineColor }) );
       scene.add(line);
 
@@ -95,26 +99,13 @@ class Dice extends Component {
       scene.add(d4);
 
 
-      //GEOMETRY
-      var geometry1 = new THREE.BufferGeometry();
-      var color = new THREE.Color();
-      var colors1 = [];
-
-
-      for (let i = 0; i < 10; i++) {
-        color.setHSL( 0.6, 1.0, Math.max( 0, - 1 / 200 ) + 0.5 );
-        colors1.push( color.r, color.g, color.b );
-      }
-
-      geometry1.setAttribute( 'color', new THREE.Float32BufferAttribute( colors1, 3 ) );
-
-
       // Render
       renderer = new THREE.WebGLRenderer({ antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
       animate()
+
 
     function animate() {
       requestAnimationFrame(animate);
