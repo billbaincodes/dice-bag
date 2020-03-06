@@ -3,10 +3,13 @@ import * as THREE from "three";
 
 class Dice extends Component {
 
-
   state = {
-    color: 'green'
+    color: 'green',
+    scene: new THREE.Scene(),
+    spinSpeed: 0.01
   }
+
+  spinSpeed = 0.01
 
   scene
   camera
@@ -16,12 +19,28 @@ class Dice extends Component {
     console.log('changin colors')
     console.log('this', this)
     this.setState({
-      color: 'blue'
+      color: 'blue',
+      rotateSpeed: 0.01
     })
   }
 
+  setSpeed(){
+    if (this.state.spinSpeed < 0.2) {
+      this.setState({
+        spinSpeed: this.state.spinSpeed += 0.05
+      })
+    } else {
+      this.setState({
+        spinSpeed: 0.01
+      })
+    }
+  }
 
   componentDidMount() {
+    this.pixar()
+  }
+
+  pixar(){
     let camera, scene, renderer;
     let geometry, material, mesh, line;
     let lineColor = this.state.color
@@ -44,8 +63,6 @@ class Dice extends Component {
       line = new THREE.LineSegments( edges, new THREE.LineBasicMaterial({ color: lineColor }) );
       scene.add(line);
 
-
-
       // Shapes
       geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
       let icosa = new THREE.IcosahedronGeometry(1, 0);
@@ -56,7 +73,6 @@ class Dice extends Component {
       let trapezTop = new THREE.ConeGeometry(1, 1, 6)
       let trapezBot = new THREE.ConeGeometry(1, 1, 6)
       var trapez = new THREE.Geometry();
-
 
 
       icosa.translate(0, 0, 0)
@@ -85,14 +101,11 @@ class Dice extends Component {
       trapez.merge(d10bot.geometry, d10bot.matrix);
 
       trapez.translate(-8, 6, 0)
-      // Once merged, create a mesh from the single geometry and add to the scene:
 
 
       var mezh = new THREE.Mesh(trapez, material);
       scene.add(mezh);
-
-
-      // scene.add(d20);
+      scene.add(d20);
       scene.add(d12);
       scene.add(d8);
       scene.add(d6);
@@ -104,23 +117,20 @@ class Dice extends Component {
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
+      const animate = () => {
+        requestAnimationFrame( animate );
+
+        line.rotation.x += 0.01;
+        line.rotation.y += this.state.spinSpeed;
+
+        line.color = '0xffffff'
+      
+        renderer.render( scene, camera );
+      };
+
       animate()
-
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      d20.rotation.x += 0.01;
-      d20.rotation.y += 0.02;
-
-      d12.rotateX += 0.41;
-
-      line.rotation.x -= 0.01;
-
-      renderer.render(scene, camera);
-    }
-
   }
+
 
 
   render() {
@@ -128,6 +138,7 @@ class Dice extends Component {
       <div>
         ⏣ become one with inner selfness ⏣
         <button onClick={() => this.colorChanger()} >Clicker</button>
+        <button onClick={() => this.setSpeed()} >Faster!!</button>
       </div>
     
   )}
