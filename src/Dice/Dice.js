@@ -4,8 +4,7 @@ import * as THREE from "three";
 class Dice extends Component {
 
   state = {
-    color: 'green',
-    scene: new THREE.Scene(),
+    color: 0xfffff,
     spinSpeed: 0.01
   }
 
@@ -16,11 +15,15 @@ class Dice extends Component {
   renderer
 
   colorChanger(){
-    console.log('changin colors')
-    console.log('this', this)
+    let chars = ['a', 'b', 'c', 'd', 'e', 'f', '0', '1', '2', '3', '4', '5', '6', '7', '8']
+    let hex = []
+    for ( let i =0; i < 6; i++) {
+      let idx = Math.random()
+      console.log({ idx })
+    }
+
     this.setState({
-      color: 'blue',
-      rotateSpeed: 0.01
+      color: 0xff00ff
     })
   }
 
@@ -123,7 +126,7 @@ class Dice extends Component {
         line.rotation.x += 0.01;
         line.rotation.y += this.state.spinSpeed;
 
-        line.color = '0xffffff'
+        line.material.color.setHex( this.state.color )
       
         renderer.render( scene, camera );
       };
