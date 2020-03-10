@@ -57,6 +57,8 @@ class Dice extends Component {
     );
     camera.position.z = 12;
     scene = new THREE.Scene();
+    scene.add(new THREE.AmbientLight(0xffffff))
+
 
     // Polygon
     let poly = new THREE.IcosahedronGeometry(2, 0);
@@ -89,7 +91,8 @@ class Dice extends Component {
     trapezTop.translate(0, 0.5, 0);
     trapezBot.translate(0, -0.5, 0);
 
-    material = new THREE.MeshNormalMaterial({ wireframe: false });
+    // material = new THREE.MeshNormalMaterial({ color:0x000000 });
+    material = new THREE.MeshBasicMaterial({ color: 'red'})
     let d10top = new THREE.Mesh(trapezTop, material);
     let d10bot = new THREE.Mesh(trapezBot, material);
     let d20 = new THREE.Mesh(icosa, material);
@@ -126,6 +129,10 @@ class Dice extends Component {
       line.rotation.y += this.state.spinSpeed;
 
       line.material.color.setHex(this.state.color);
+
+      d6.material.color.setHex(this.state.color);
+      d6.material.needsUpdate = true
+      console.log({ d6 });
 
       renderer.render(scene, camera);
     };
