@@ -55,21 +55,29 @@ class Dice extends Component {
       1,
       100
     );
-    camera.position.z = 12;
+    camera.position.z = 9;
     scene = new THREE.Scene();
-    scene.add(new THREE.AmbientLight(0xffffff))
 
+    var ambientLight = new THREE.AmbientLight ( 0xffffff, 0.5)
+    scene.add( ambientLight )
+
+    var pointLight = new THREE.PointLight( 0xffffff, 0.9 );
+    pointLight.position.set( 25, 50, 25 );
+    scene.add( pointLight );
+
+    var setLight = new THREE.PointLight( 0xffffff, 0.3 );
+    setLight.position.set( -25, 50, 25 );
+    // scene.add( setLight );
 
     // Polygon
     let poly = new THREE.IcosahedronGeometry(2, 0);
     let edges = new THREE.EdgesGeometry(poly);
     // lineColor = this.state.color
-    console.log({ lineColor });
     line = new THREE.LineSegments(
       edges,
       new THREE.LineBasicMaterial({ color: lineColor })
     );
-    scene.add(line);
+    // scene.add(line);
 
     // Shapes
     geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
@@ -92,7 +100,8 @@ class Dice extends Component {
     trapezBot.translate(0, -0.5, 0);
 
     // material = new THREE.MeshNormalMaterial({ color:0x000000 });
-    material = new THREE.MeshBasicMaterial({ color: 'red'})
+    // material = new THREE.MeshBasicMaterial({ color: 'red'})
+    material = new THREE.MeshStandardMaterial( { color: 0xff0051 })
     let d10top = new THREE.Mesh(trapezTop, material);
     let d10bot = new THREE.Mesh(trapezBot, material);
     let d20 = new THREE.Mesh(icosa, material);
@@ -125,6 +134,9 @@ class Dice extends Component {
     const animate = () => {
       requestAnimationFrame(animate);
 
+      d20.rotation.x += 0.01
+      d20.rotation.y += 0.01
+
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
 
@@ -132,7 +144,6 @@ class Dice extends Component {
 
       d6.material.color.setHex(this.state.color);
       d6.material.needsUpdate = true
-      console.log({ d6 });
 
       renderer.render(scene, camera);
     };
