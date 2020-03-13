@@ -4,7 +4,8 @@ import * as THREE from "three";
 class Dice extends Component {
   state = {
     color: 0xfffff,
-    spinSpeed: 0.01
+    spinSpeed: 0.01,
+    synthwave: false,
   };
 
   spinSpeed = 0.01;
@@ -98,6 +99,7 @@ class Dice extends Component {
     // material = new THREE.MeshNormalMaterial({ color:0x000000 });
     // material = new THREE.MeshBasicMaterial({ color: 'red'})
     material = new THREE.MeshStandardMaterial( { color: 0xff0051 })
+    let synthwave = new THREE.MeshNormalMaterial({ wireframe: false});
     let d10top = new THREE.Mesh(trapezTop, material);
     let d10bot = new THREE.Mesh(trapezBot, material);
     let d20 = new THREE.Mesh(icosa, material);
@@ -130,15 +132,20 @@ class Dice extends Component {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      d20.rotation.x += 0.01
+      d20.rotation.x += this.state.spinSpeed;
       d20.rotation.y += 0.01
 
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
 
-      line.material.color.setHex(this.state.color);
+      // line.material.color.setHex(this.state.color);
 
-      d6.material.color.setHex(this.state.color);
+      if (this.state.synthwave) {
+        d20.material = synthwave
+      } else {
+        d20.material = material
+        d20.material.color.setHex(this.state.color);
+      }
       d6.material.needsUpdate = true
 
       renderer.render(scene, camera);
@@ -156,6 +163,12 @@ class Dice extends Component {
     })
   }
 
+  colorSynth(){
+    this.setState({
+      synthwave: !this.state.synthwave,
+    })
+  }
+
   render() {
     return (
       <div>
@@ -164,6 +177,7 @@ class Dice extends Component {
         <button onClick={() => this.setSpeed()}>Faster!!</button>
         <label htmlFor='color-set'>Choose Color: </label>
         <input onChange={(e) => this.colorSet(e)} id='color-set' type='color'></input>
+        <button onClick={() => this.colorSynth()}>s y n t h w a v e</button>
       </div>
     );
   }
