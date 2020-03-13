@@ -61,13 +61,9 @@ class Dice extends Component {
     var ambientLight = new THREE.AmbientLight ( 0xffffff, 0.5)
     scene.add( ambientLight )
 
-    var pointLight = new THREE.PointLight( 0xffffff, 0.9 );
+    var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
     pointLight.position.set( 25, 50, 25 );
     scene.add( pointLight );
-
-    var setLight = new THREE.PointLight( 0xffffff, 0.3 );
-    setLight.position.set( -25, 50, 25 );
-    // scene.add( setLight );
 
     // Polygon
     let poly = new THREE.IcosahedronGeometry(2, 0);
@@ -151,12 +147,23 @@ class Dice extends Component {
     animate();
   }
 
+  colorSet(event){
+    let color = event.target.value
+    color = color.replace('#', '0x')
+    console.log({ color });
+    this.setState({
+      color
+    })
+  }
+
   render() {
     return (
       <div>
         ⏣ become one with inner selfness ⏣
         <button onClick={() => this.colorChanger()}>Random Color!</button>
         <button onClick={() => this.setSpeed()}>Faster!!</button>
+        <label htmlFor='color-set'>Choose Color: </label>
+        <input onChange={(e) => this.colorSet(e)} id='color-set' type='color'></input>
       </div>
     );
   }
