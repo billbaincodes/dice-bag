@@ -46,7 +46,7 @@ class Dice extends Component {
 
   pixar() {
     let camera, scene, renderer;
-    let geometry, material, mesh, line;
+    let material, line;
     let lineColor = this.state.color;
 
     // Camera
@@ -69,15 +69,13 @@ class Dice extends Component {
     // Polygon
     let poly = new THREE.IcosahedronGeometry(2, 0);
     let edges = new THREE.EdgesGeometry(poly);
-    // lineColor = this.state.color
     line = new THREE.LineSegments(
       edges,
       new THREE.LineBasicMaterial({ color: lineColor })
     );
-    // scene.add(line);
+    scene.add(line);
 
     // Shapes
-    geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
     let icosa = new THREE.IcosahedronGeometry(1, 0);
     let dodeca = new THREE.DodecahedronGeometry(1, 0);
     let tetra = new THREE.TetrahedronGeometry(1, 0);
@@ -96,8 +94,6 @@ class Dice extends Component {
     trapezTop.translate(0, 0.5, 0);
     trapezBot.translate(0, -0.5, 0);
 
-    // material = new THREE.MeshNormalMaterial({ color:0x000000 });
-    // material = new THREE.MeshBasicMaterial({ color: 'red'})
     material = new THREE.MeshStandardMaterial( { color: 0xff0051 })
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false});
     let d10top = new THREE.Mesh(trapezTop, material);
@@ -108,12 +104,10 @@ class Dice extends Component {
     let d6 = new THREE.Mesh(cube, material);
     let d4 = new THREE.Mesh(tetra, material);
 
-    d10top.updateMatrix(); // as needed
+
     trapez.merge(d10top.geometry, d10top.matrix);
-
-    d10bot.updateMatrix(); // as needed
     trapez.merge(d10bot.geometry, d10bot.matrix);
-
+    d10bot.updateMatrix();
     trapez.translate(-8, 6, 0);
 
     let mezh = new THREE.Mesh(trapez, material);
@@ -137,8 +131,7 @@ class Dice extends Component {
 
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
-
-      // line.material.color.setHex(this.state.color);
+      line.material.color.setHex(this.state.color);
 
       if (this.state.synthwave) {
         d20.material = synthwave
@@ -147,7 +140,6 @@ class Dice extends Component {
         d20.material.color.setHex(this.state.color);
       }
       d6.material.needsUpdate = true
-
       renderer.render(scene, camera);
     };
 
@@ -157,7 +149,6 @@ class Dice extends Component {
   colorSet(event){
     let color = event.target.value
     color = color.replace('#', '0x')
-    console.log({ color });
     this.setState({
       color
     })
