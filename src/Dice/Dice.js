@@ -14,11 +14,11 @@ class Dice extends Component {
   camera;
   renderer;
 
-  colorChanger() {
-    let chars = "12345678abcdef";
+  colorRandomizer() {
+    let chars = "12345678abcdefABCDEF";
     let randomSet = [];
     for (let i = 0; i < 6; i++) {
-      let n = Math.ceil(Math.random()*14);
+      let n = Math.ceil(Math.random()*20);
       randomSet.push(chars[n]);
     }
     let randomColor = randomSet.join("");
@@ -30,8 +30,9 @@ class Dice extends Component {
 
   setSpeed() {
     if (this.state.spinSpeed < 0.2) {
+      let currSpeed = this.state.spinSpeed
       this.setState({
-        spinSpeed: (this.state.spinSpeed += 0.05)
+        spinSpeed: (currSpeed += 0.05)
       });
     } else {
       this.setState({
@@ -164,7 +165,7 @@ class Dice extends Component {
     return (
       <div>
         ⏣ become one with inner selfness ⏣
-        <button onClick={() => this.colorChanger()}>Random Color!</button>
+        <button onClick={() => this.colorRandomizer()}>Random Color!</button>
         <button onClick={() => this.setSpeed()}>Faster!!</button>
         <label htmlFor='color-set'>Choose Color: </label>
         <input onChange={(e) => this.colorSet(e)} id='color-set' type='color'></input>
