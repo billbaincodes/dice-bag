@@ -124,6 +124,9 @@ class Dice extends Component {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    let hue = 0
+
+
     const animate = () => {
       requestAnimationFrame(animate);
 
@@ -132,13 +135,16 @@ class Dice extends Component {
 
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
-      line.material.color.setHex(this.state.color);
+      if (hue < 360) { hue++ } else { hue = 0 }
+      var color = new THREE.Color(`hsl(${hue}, 100%, 50%)`)
+      line.material.color.set(color);
 
       if (this.state.synthwave) {
         d20.material = synthwave
       } else {
         d20.material = material
         d20.material.color.setHex(this.state.color);
+        d20.material.color.set(color);
       }
       d6.material.needsUpdate = true
       renderer.render(scene, camera);
