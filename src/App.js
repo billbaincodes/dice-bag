@@ -7,10 +7,9 @@ import OnClick from './Dice/OnClick'
 function App() {
   return (
     <div className="App">
-        {/* <Dice /> */}
-        <OnClick />
+        <Dice />
+        {/* <OnClick /> */}
         {/* <Physics /> */}
-        <h2>header here</h2>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import * as THREE from "three";
+import './Dice.css'
 
 class Dice extends Component {
   state = {
@@ -58,7 +59,7 @@ class Dice extends Component {
       .1,
       1000
     );
-    camera.position.z = 20;
+    camera.position.z = 14;
     scene = new THREE.Scene();
 
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -75,7 +76,7 @@ class Dice extends Component {
       edges,
       new THREE.LineBasicMaterial({ color: lineColor })
     );
-    // scene.add(line);
+    scene.add(line);
 
     // Shapes
     let icosa = new THREE.IcosahedronGeometry(1, 0);
@@ -86,18 +87,27 @@ class Dice extends Component {
     let trapezTop = new THREE.ConeGeometry(1, 1, 6);
     let trapezBot = new THREE.ConeGeometry(1, 1, 6);
     let trapez = new THREE.Geometry();
+    let trapezTop2 = new THREE.ConeGeometry(1, 1, 6);
+    let trapezBot2 = new THREE.ConeGeometry(1, 1, 6);
+    let trapez2 = new THREE.Geometry();
 
-    icosa.translate(6.4, -4, 0);
-    dodeca.translate(4, -4, 0);
-    octa.translate(0, -4, 0);
-    cube.translate(-4, -4, 0);
-    tetra.translate(-6, -4, 0);
+    icosa.translate(6, -4, 0);
+    dodeca.translate(3, -4, 0);
+    octa.translate(-3, -4, 0);
+    cube.translate(-6, -4, 0);
+    tetra.translate(-9, -4, 0);
     trapezBot.rotateX(Math.PI);
     trapezTop.translate(0, 0.5, 0);
     trapezBot.translate(0, -0.5, 0);
+    trapezBot2.rotateX(Math.PI);
+    trapezTop2.translate(0, 0.5, 0);
+    trapezBot2.translate(0, -0.5, 0);
 
     material = new THREE.MeshStandardMaterial({ color: 0xff0051 });
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
+    let d100 = new THREE.Mesh(trapez2, material);
+    let d100top = new THREE.Mesh(trapezTop, material);
+    let d100bot = new THREE.Mesh(trapezBot, material);
     let d10 = new THREE.Mesh(trapez, material);
     let d10top = new THREE.Mesh(trapezTop, material);
     let d10bot = new THREE.Mesh(trapezBot, material);
@@ -107,6 +117,7 @@ class Dice extends Component {
     let d6 = new THREE.Mesh(cube, material);
     let d4 = new THREE.Mesh(tetra, material);
 
+    d100.name = 'd100'
     d20.name = 'd20'
     d12.name = 'd12'
     d10.name = 'd10'
@@ -117,10 +128,14 @@ class Dice extends Component {
 
     trapez.merge(d10top.geometry, d10top.matrix);
     trapez.merge(d10bot.geometry, d10bot.matrix);
-    d10bot.updateMatrix();
-    trapez.translate(-8, -4, 0);
+    // d10bot.updateMatrix(); <- May not need
+    trapez.translate(0, -4, 0);
 
+    trapez2.merge(d100top.geometry, d100top.matrix);
+    trapez2.merge(d100bot.geometry, d100bot.matrix);
+    trapez2.translate(9, -4, 0);
 
+    scene.add(d100)
     scene.add(d10);
     scene.add(d20);
     scene.add(d12);
@@ -156,8 +171,8 @@ class Dice extends Component {
       } else if (this.state.rainbow) {
         d20.material.color.set(color);
       } else {
-        // d20.material = material;
-        // d20.material.color.setHex(this.state.color);
+        d20.material = material;
+        d20.material.color.setHex(this.state.color);
       }
       d6.material.needsUpdate = true;
       renderer.render(scene, camera);
@@ -166,7 +181,7 @@ class Dice extends Component {
     // Event Listener
     var mouse = new THREE.Vector2(0, 0);
     let raycaster = new THREE.Raycaster();
-    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setClearColor('white');
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.sortObjects = false;
     let INTERSECTED;

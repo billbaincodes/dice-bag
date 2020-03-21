@@ -36,11 +36,9 @@ class OnClick extends Component {
 
     // Event Listener
     var mouse = new THREE.Vector2(), INTERSECTED;
-
     let raycaster = new THREE.Raycaster();
     renderer.setClearColor( 0xf0f0f0 );
     renderer.setPixelRatio( window.devicePixelRatio );
-
     renderer.sortObjects = false;
 
 
@@ -56,6 +54,7 @@ class OnClick extends Component {
       // find intersections
       raycaster.setFromCamera( mouse, camera );
       var intersects = raycaster.intersectObjects( scene.children );
+      console.log({ intersects });
       if ( intersects.length > 0 ) {
         if ( INTERSECTED != intersects[ 0 ].object ) {
           if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
@@ -65,7 +64,7 @@ class OnClick extends Component {
             console.log(intersects.length);
         }
       } else {
-        if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+        if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
         INTERSECTED = null;
       }
     }
