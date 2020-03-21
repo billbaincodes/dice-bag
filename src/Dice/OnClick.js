@@ -4,13 +4,12 @@ import * as THREE from "three";
 class OnClick extends Component {
 
   componentDidMount() {
-    this.init();
+    this.pixar();
   }
 
-  init() {
-    console.log('init bissssh')
-    const scene = new THREE.Scene();
-    const renderer = new THREE.WebGLRenderer();
+  pixar() {
+    console.log('init bissssh');
+    let scene = new THREE.Scene();
     // scene = new THREE.Scene();
     scene.add( new THREE.AmbientLight( 0xffffff, 0.2 ) );
 
@@ -19,22 +18,30 @@ class OnClick extends Component {
     light.position.set( 30, 10, 1 ).normalize();
     scene.add( light );
 
-    var cubeGeometry = new THREE.BoxGeometry(20,20,20);
+    var cubeGeometry = new THREE.BoxGeometry(3,3,3);
     var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x999999, wireframe: false});  
-    let material = new THREE.MeshNormalMaterial()
-    var object = new THREE.Mesh(cubeGeometry, material);
+    var object = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-      object.position.x = 0;  
-      object.position.y = 0;  
-      object.position.z = 0;
+    object.rotateX(10)
+    object.rotateY(10);
 
     scene.add( object );
 
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 100)
+    let camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 1, 100)
 
-    camera.position.z = 70
-    renderer.setSize(window.innerWidth / window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+    camera.position.z = 15
+    let renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement)
+
+    // Event Listener
+    var mouse = new THREE.Vector2(), INTERSECTED;
+
+    let raycaster = new THREE.Raycaster();
+    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setPixelRatio( window.devicePixelRatio );
+
+    renderer.sortObjects = false;
 
 
     const animate = () => {
@@ -42,6 +49,28 @@ class OnClick extends Component {
       renderer.render(scene, camera)
     }
 
+    const onDocumentMouseDown = (event) => {
+      event.preventDefault();
+      mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      // find intersections
+      raycaster.setFromCamera( mouse, camera );
+      var intersects = raycaster.intersectObjects( scene.children );
+      if ( intersects.length > 0 ) {
+        if ( INTERSECTED != intersects[ 0 ].object ) {
+          if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+          INTERSECTED = intersects[ 0 ].object;
+          INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+          INTERSECTED.material.color.setHex( 0xff0000 );
+            console.log(intersects.length);
+        }
+      } else {
+        if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+        INTERSECTED = null;
+      }
+    }
+
+    document.addEventListener( 'mousedown', onDocumentMouseDown, false );   
     animate();
   }
 
