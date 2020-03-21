@@ -53,12 +53,12 @@ class Dice extends Component {
 
     // Camera
     camera = new THREE.PerspectiveCamera(
-      80,
+      60,
       window.innerWidth / window.innerHeight,
-      1,
-      100
+      .1,
+      1000
     );
-    camera.position.z = 9;
+    camera.position.z = 20;
     scene = new THREE.Scene();
 
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -75,7 +75,7 @@ class Dice extends Component {
       edges,
       new THREE.LineBasicMaterial({ color: lineColor })
     );
-    scene.add(line);
+    // scene.add(line);
 
     // Shapes
     let icosa = new THREE.IcosahedronGeometry(1, 0);
@@ -87,17 +87,18 @@ class Dice extends Component {
     let trapezBot = new THREE.ConeGeometry(1, 1, 6);
     let trapez = new THREE.Geometry();
 
-    icosa.translate(0, 0, 0);
-    dodeca.translate(-8, 4, 0);
-    tetra.translate(-8, -6, 0);
-    octa.translate(-8, -2, 0);
-    cube.translate(-8, -4, 0);
+    icosa.translate(6.4, -4, 0);
+    dodeca.translate(4, -4, 0);
+    octa.translate(0, -4, 0);
+    cube.translate(-4, -4, 0);
+    tetra.translate(-6, -4, 0);
     trapezBot.rotateX(Math.PI);
     trapezTop.translate(0, 0.5, 0);
     trapezBot.translate(0, -0.5, 0);
 
     material = new THREE.MeshStandardMaterial({ color: 0xff0051 });
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
+    let d10 = new THREE.Mesh(trapez, material);
     let d10top = new THREE.Mesh(trapezTop, material);
     let d10bot = new THREE.Mesh(trapezBot, material);
     let d20 = new THREE.Mesh(icosa, material);
@@ -106,13 +107,21 @@ class Dice extends Component {
     let d6 = new THREE.Mesh(cube, material);
     let d4 = new THREE.Mesh(tetra, material);
 
+    d20.name = 'd20'
+    d12.name = 'd12'
+    d10.name = 'd10'
+    d8.name = 'd8'
+    d6.name = 'd6'
+    d4.name = 'd4'
+
+
     trapez.merge(d10top.geometry, d10top.matrix);
     trapez.merge(d10bot.geometry, d10bot.matrix);
     d10bot.updateMatrix();
-    trapez.translate(-8, 6, 0);
+    trapez.translate(-8, -4, 0);
 
-    let mezh = new THREE.Mesh(trapez, material);
-    scene.add(mezh);
+
+    scene.add(d10);
     scene.add(d20);
     scene.add(d12);
     scene.add(d8);
@@ -129,8 +138,8 @@ class Dice extends Component {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      d20.rotation.x += this.state.spinSpeed;
-      d20.rotation.y += 0.01;
+      // d20.rotation.x += this.state.spinSpeed;
+      // d20.rotation.y += 0.01;
 
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
@@ -147,12 +156,48 @@ class Dice extends Component {
       } else if (this.state.rainbow) {
         d20.material.color.set(color);
       } else {
-        d20.material = material;
-        d20.material.color.setHex(this.state.color);
+        // d20.material = material;
+        // d20.material.color.setHex(this.state.color);
       }
       d6.material.needsUpdate = true;
       renderer.render(scene, camera);
     };
+
+    // Event Listener
+    var mouse = new THREE.Vector2(0, 0);
+    let raycaster = new THREE.Raycaster();
+    renderer.setClearColor( 0xf0f0f0 );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.sortObjects = false;
+    let INTERSECTED;
+
+    const onDocumentMouseDown = (event) => {
+      event.preventDefault();
+      mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+      mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      // find intersections
+      raycaster.setFromCamera( mouse, camera );
+      var intersects = raycaster.intersectObjects( scene.children );
+      console.log({ intersects });
+
+      intersects.forEach(intersect => {
+        console.log(intersect.object.name)
+      })
+      // if ( intersects.length > 0 ) {
+      //   if ( INTERSECTED != intersects[ 0 ].object ) {
+      //     if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
+      //     INTERSECTED = intersects[ 0 ].object;
+      //     INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+      //     INTERSECTED.material.color.setHex( 0xff0000 );
+      //       console.log(intersects.length);
+      //   }
+      // } else {
+      //   if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
+      //   INTERSECTED = null;
+      // }
+    }
+
+    document.addEventListener( 'mousedown', onDocumentMouseDown, false ); 
 
     animate();
   }
