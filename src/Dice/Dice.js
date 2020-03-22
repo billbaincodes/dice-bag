@@ -11,7 +11,7 @@ class Dice extends Component {
     rainbow: false,
     roll: 0,
     darkMode: false,
-    settings: false,
+    settings: true,
   };
 
   spinSpeed = 0.01;
@@ -112,6 +112,8 @@ class Dice extends Component {
     dodeca.translate(3, -4, 0);
     octa.translate(-3, -4, 0);
     cube.translate(-6, -4, 0);
+    // cube.center(2, 2, 2);
+    // cube.translate(-6, -4, 0);
     tetra.translate(-9, -4, 0);
     trapezBot.rotateX(Math.PI);
     trapezTop.translate(0, 0.5, 0);
@@ -151,6 +153,33 @@ class Dice extends Component {
     trapez2.merge(d100bot.geometry, d100bot.matrix);
     trapez2.translate(9, -4, 0);
 
+
+
+          // Center around own axes
+    var d6center = new THREE.Vector3();
+    d6.geometry.computeBoundingBox();
+    d6.geometry.boundingBox.getCenter(d6center);
+    d6.geometry.center();
+    d6.position.copy(d6center);
+
+    var d20Center = new THREE.Vector3();
+    d20.geometry.computeBoundingBox();
+    d20.geometry.boundingBox.getCenter(d20Center);
+    d20.geometry.center();
+    d20.position.copy(d20Center);
+
+
+
+
+
+
+
+
+
+
+
+
+
     scene.add(d100);
     scene.add(d10);
     scene.add(d20);
@@ -167,11 +196,14 @@ class Dice extends Component {
     let hue = 0;
 
     const animate = () => {
-      // requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
       renderer.setClearColor(this.state.bgColor);
 
       // d20.rotation.x += this.state.spinSpeed;
-      // d20.rotation.y += 0.01;
+      d20.rotation.y += 0.007;
+      d6.rotation.y += 0.01;
+
+      // d6.rotateOnAxis()
 
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
