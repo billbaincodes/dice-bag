@@ -1,9 +1,7 @@
-div {
+header {
   background-color: rgba(0, 0, 0, 0.75);
   color: white;
-  position: absolute;
   width: 100%;
-  z-index: 2;
 }
 
 button {
@@ -13,4 +11,10 @@ button {
   font-size: 1rem;
   margin: 0.5rem;
   padding: 0.2rem;
+}
+
+.roll {
+  color: gray;
+  font-size: 3rem;
+  margin: 4rem 0rem;
 }
