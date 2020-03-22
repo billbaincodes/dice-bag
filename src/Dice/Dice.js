@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import * as THREE from "three";
-import './Dice.css'
+import "./Dice.css";
 
 class Dice extends Component {
   state = {
     color: 0xfffff,
+    bgColor: "white",
     spinSpeed: 0.01,
     synthwave: false,
     rainbow: false,
+    roll: 0,
+    darkMode: false,
+    settings: false,
   };
 
   spinSpeed = 0.01;
@@ -43,6 +47,19 @@ class Dice extends Component {
     }
   }
 
+  setBg() {
+    let bgColor = this.state.bgColor === "black" ? "white" : "black";
+    this.setState({ bgColor });
+    let current = this.state.darkMode;
+    this.setState({ darkMode: !current });
+  }
+
+  roll(die) {
+    let result = Math.ceil(Math.random() * die);
+    this.setState({ roll: result });
+    console.log({ result });
+  }
+
   componentDidMount() {
     this.pixar();
   }
@@ -56,7 +73,7 @@ class Dice extends Component {
     camera = new THREE.PerspectiveCamera(
       60,
       window.innerWidth / window.innerHeight,
-      .1,
+      0.1,
       1000
     );
     camera.position.z = 14;
@@ -117,14 +134,13 @@ class Dice extends Component {
     let d6 = new THREE.Mesh(cube, material);
     let d4 = new THREE.Mesh(tetra, material);
 
-    d100.name = 'd100'
-    d20.name = 'd20'
-    d12.name = 'd12'
-    d10.name = 'd10'
-    d8.name = 'd8'
-    d6.name = 'd6'
-    d4.name = 'd4'
-
+    d100.name = "100";
+    d20.name = "20";
+    d12.name = "12";
+    d10.name = "10";
+    d8.name = "8";
+    d6.name = "6";
+    d4.name = "4";
 
     trapez.merge(d10top.geometry, d10top.matrix);
     trapez.merge(d10bot.geometry, d10bot.matrix);
@@ -135,7 +151,7 @@ class Dice extends Component {
     trapez2.merge(d100bot.geometry, d100bot.matrix);
     trapez2.translate(9, -4, 0);
 
-    scene.add(d100)
+    scene.add(d100);
     scene.add(d10);
     scene.add(d20);
     scene.add(d12);
@@ -151,7 +167,8 @@ class Dice extends Component {
     let hue = 0;
 
     const animate = () => {
-      requestAnimationFrame(animate);
+      // requestAnimationFrame(animate);
+      renderer.setClearColor(this.state.bgColor);
 
       // d20.rotation.x += this.state.spinSpeed;
       // d20.rotation.y += 0.01;
@@ -181,23 +198,22 @@ class Dice extends Component {
     // Event Listener
     var mouse = new THREE.Vector2(0, 0);
     let raycaster = new THREE.Raycaster();
-    renderer.setClearColor('white');
-    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setClearColor(this.state.bgColor);
+    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.sortObjects = false;
-    let INTERSECTED;
+    // let INTERSECTED;
 
-    const onDocumentMouseDown = (event) => {
+    const onDocumentMouseDown = event => {
       event.preventDefault();
-      mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
       // find intersections
-      raycaster.setFromCamera( mouse, camera );
-      var intersects = raycaster.intersectObjects( scene.children );
+      raycaster.setFromCamera(mouse, camera);
+      var intersects = raycaster.intersectObjects(scene.children);
       console.log({ intersects });
-
-      intersects.forEach(intersect => {
-        console.log(intersect.object.name)
-      })
+      if (intersects.length) {
+        this.roll(intersects[0].object.name);
+      }
       // if ( intersects.length > 0 ) {
       //   if ( INTERSECTED != intersects[ 0 ].object ) {
       //     if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
@@ -210,9 +226,9 @@ class Dice extends Component {
       //   if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
       //   INTERSECTED = null;
       // }
-    }
+    };
 
-    document.addEventListener( 'mousedown', onDocumentMouseDown, false ); 
+    document.addEventListener("mousedown", onDocumentMouseDown, false);
 
     animate();
   }
@@ -234,16 +250,53 @@ class Dice extends Component {
   render() {
     return (
       <div>
-        ⏣ become one with inner selfness ⏣
-        <button onClick={() => this.colorRandomizer()}>Random Color!</button>
-        <button onClick={() => this.setSpeed()}>Faster!!</button>
-        <label htmlFor="color-set">Choose Color: </label>
-        <input
-          onChange={e => this.colorSet(e)}
-          id="color-set"
-          type="color"
-        ></input>
-        <button onClick={() => this.colorSynth()}>s y n t h w a v e</button>
+        {this.state.settings ? (
+          <header className={this.state.darkMode ? "light" : "dark"}>
+            ⏣ become one with inner selfness ⏣
+            <button
+              className={this.state.darkMode ? "light" : "dark"}
+              onClick={() => this.colorRandomizer()}
+            >
+              Random Color!
+            </button>
+            <button
+              className={this.state.darkMode ? "light" : "dark"}
+              onClick={() => this.setSpeed()}
+            >
+              Faster!!
+            </button>
+            <label htmlFor="color-set">Choose Color: </label>
+            <input
+              onChange={e => this.colorSet(e)}
+              id="color-set"
+              type="color"
+            ></input>
+            <button
+              className={this.state.darkMode ? "light" : "dark"}
+              onClick={() => this.colorSynth()}
+            >
+              s y n t h w a v e
+            </button>
+            <button
+              className={this.state.darkMode ? "light" : "dark"}
+              onClick={() => this.setBg()}
+            >
+              {this.state.darkMode ? "Light" : "Dark"} Mode
+            </button>
+            <span onClick={() => this.setState({ settings: !this.state.settings })}> X </span>
+          </header>
+        ) : (
+          <div
+            onClick={() => this.setState({ settings: !this.state.settings })}
+          >
+            settings
+          </div>
+        )}
+        {this.state.roll === 0 ? (
+          <p className="roll"> click dice to start</p>
+        ) : (
+          <div className="roll">You rolled: {this.state.roll}</div>
+        )}
       </div>
     );
   }
