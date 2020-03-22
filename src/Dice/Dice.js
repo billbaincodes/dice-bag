@@ -154,39 +154,19 @@ class Dice extends Component {
     trapez2.translate(9, -4, 0);
 
 
+    let dice = [d4, d6, d8, d10, d12, d20, d100]
+    let center = {}
 
-          // Center around own axes
-    var d6center = new THREE.Vector3();
-    d6.geometry.computeBoundingBox();
-    d6.geometry.boundingBox.getCenter(d6center);
-    d6.geometry.center();
-    d6.position.copy(d6center);
+    // Center around own axes
+    dice.forEach(die => {
+      center[die] = new THREE.Vector3()
+      die.geometry.computeBoundingBox();
+      die.geometry.boundingBox.getCenter(center[die]);
+      die.geometry.center();
+      die.position.copy(center[die]);
+      scene.add(die);
+    })
 
-    var d20Center = new THREE.Vector3();
-    d20.geometry.computeBoundingBox();
-    d20.geometry.boundingBox.getCenter(d20Center);
-    d20.geometry.center();
-    d20.position.copy(d20Center);
-
-
-
-
-
-
-
-
-
-
-
-
-
-    scene.add(d100);
-    scene.add(d10);
-    scene.add(d20);
-    scene.add(d12);
-    scene.add(d8);
-    scene.add(d6);
-    scene.add(d4);
 
     // Render
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -200,8 +180,13 @@ class Dice extends Component {
       renderer.setClearColor(this.state.bgColor);
 
       // d20.rotation.x += this.state.spinSpeed;
+      d100.rotation.y += 0.007;
       d20.rotation.y += 0.007;
-      d6.rotation.y += 0.01;
+      d12.rotation.y += 0.007;
+      d10.rotation.y += 0.007;
+      d8.rotation.y += 0.007;
+      d6.rotation.y += 0.007;
+      d4.rotation.y += 0.007;
 
       // d6.rotateOnAxis()
 
@@ -327,7 +312,7 @@ class Dice extends Component {
         {this.state.roll === 0 ? (
           <p className="roll"> click dice to start</p>
         ) : (
-          <div className="roll">You rolled: {this.state.roll}</div>
+          <div className="roll">You rolled {this.state.roll}</div>
         )}
       </div>
     );
