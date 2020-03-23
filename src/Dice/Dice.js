@@ -12,6 +12,7 @@ class Dice extends Component {
     roll: 0,
     darkMode: false,
     settings: true,
+    animate: true,
   };
 
   spinSpeed = 0.01;
@@ -61,22 +62,26 @@ class Dice extends Component {
   }
 
   componentDidMount() {
+    this.cameraGen();
     this.pixar();
   }
 
-  pixar() {
-    let camera, scene, renderer;
-    let material, line;
-    let lineColor = this.state.color;
-
-    // Camera
-    camera = new THREE.PerspectiveCamera(
+  cameraGen() {
+    this.camera = this.camera = new THREE.PerspectiveCamera(
       60,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
-    camera.position.z = 14;
+    this.camera.position.z = 14;
+  }
+
+  pixar() {
+    // this.cameraGen();
+    let scene, renderer;
+    let material, line;
+    let lineColor = this.state.color;
+
     scene = new THREE.Scene();
 
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -146,27 +151,24 @@ class Dice extends Component {
 
     trapez.merge(d10top.geometry, d10top.matrix);
     trapez.merge(d10bot.geometry, d10bot.matrix);
-    // d10bot.updateMatrix(); <- May not need
     trapez.translate(0, -4, 0);
 
     trapez2.merge(d100top.geometry, d100top.matrix);
     trapez2.merge(d100bot.geometry, d100bot.matrix);
     trapez2.translate(9, -4, 0);
 
+    let dice = [d4, d6, d8, d10, d12, d20, d100];
+    let center = {};
 
-    let dice = [d4, d6, d8, d10, d12, d20, d100]
-    let center = {}
-
-    // Center around own axes
+    // Center around own axes and add to scene
     dice.forEach(die => {
-      center[die] = new THREE.Vector3()
+      center[die] = new THREE.Vector3();
       die.geometry.computeBoundingBox();
       die.geometry.boundingBox.getCenter(center[die]);
       die.geometry.center();
       die.position.copy(center[die]);
       scene.add(die);
-    })
-
+    });
 
     // Render
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -176,7 +178,11 @@ class Dice extends Component {
     let hue = 0;
 
     const animate = () => {
-      requestAnimationFrame(animate);
+      // Turn off animations
+      this.state.animate
+        ? requestAnimationFrame(animate)
+        : console.log("You're killing my battery, bro");
+
       renderer.setClearColor(this.state.bgColor);
 
       // d20.rotation.x += this.state.spinSpeed;
@@ -209,7 +215,7 @@ class Dice extends Component {
         d20.material.color.setHex(this.state.color);
       }
       d6.material.needsUpdate = true;
-      renderer.render(scene, camera);
+      renderer.render(scene, this.camera);
     };
 
     // Event Listener
@@ -225,24 +231,12 @@ class Dice extends Component {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
       // find intersections
-      raycaster.setFromCamera(mouse, camera);
+      raycaster.setFromCamera(mouse, this.camera);
       var intersects = raycaster.intersectObjects(scene.children);
       console.log({ intersects });
       if (intersects.length) {
         this.roll(intersects[0].object.name);
       }
-      // if ( intersects.length > 0 ) {
-      //   if ( INTERSECTED != intersects[ 0 ].object ) {
-      //     if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-      //     INTERSECTED = intersects[ 0 ].object;
-      //     INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-      //     INTERSECTED.material.color.setHex( 0xff0000 );
-      //       console.log(intersects.length);
-      //   }
-      // } else {
-      //   if ( INTERSECTED ) INTERSECTED.material.color.setHex( INTERSECTED.currentHex );
-      //   INTERSECTED = null;
-      // }
     };
 
     document.addEventListener("mousedown", onDocumentMouseDown, false);
@@ -300,7 +294,16 @@ class Dice extends Component {
             >
               {this.state.darkMode ? "Light" : "Dark"} Mode
             </button>
-            <span onClick={() => this.setState({ settings: !this.state.settings })}> X </span>
+            <button className={this.state.darkMode ? "light" : "dark"}
+              onClick={() => this.setState({ animate: !this.state.animate })}>
+              Battery Saver
+            </button>
+            <span
+              onClick={() => this.setState({ settings: !this.state.settings })}
+            >
+              {" "}
+              X{" "}
+            </span>
           </header>
         ) : (
           <div
