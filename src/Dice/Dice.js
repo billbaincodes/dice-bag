@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as THREE from "three";
 import "./Dice.css";
+import RollLog from '../Components/RollLog'
 
 class Dice extends Component {
   state = {
@@ -13,6 +14,7 @@ class Dice extends Component {
     darkMode: false,
     settings: true,
     animate: true,
+    log: ['1 / 20', '4 / 8', '6 / 6']
   };
 
   spinSpeed = 0.01;
@@ -208,11 +210,23 @@ class Dice extends Component {
 
       if (this.state.synthwave) {
         d20.material = synthwave;
+
+        dice.forEach(die => {
+          die.material = synthwave;
+        })
+
+
+
       } else if (this.state.rainbow) {
         d20.material.color.set(color);
       } else {
-        d20.material = material;
-        d20.material.color.setHex(this.state.color);
+
+        dice.forEach(die => {
+          die.material = material;
+          die.material.color.setHex(this.state.color);
+        })
+        // d20.material = material;
+        // d20.material.color.setHex(this.state.color);
       }
       d6.material.needsUpdate = true;
       renderer.render(scene, this.camera);
@@ -233,7 +247,6 @@ class Dice extends Component {
       // find intersections
       raycaster.setFromCamera(mouse, this.camera);
       var intersects = raycaster.intersectObjects(scene.children);
-      console.log({ intersects });
       if (intersects.length) {
         this.roll(intersects[0].object.name);
       }
@@ -317,6 +330,10 @@ class Dice extends Component {
         ) : (
           <div className="roll">You rolled {this.state.roll}</div>
         )}
+        {/* <div className='log'>
+          oh hi
+        </div> */}
+        <RollLog rolls={this.state.log} />
       </div>
     );
   }
