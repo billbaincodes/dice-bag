@@ -14,7 +14,9 @@ class Dice extends Component {
     darkMode: false,
     settings: true,
     animate: true,
-    log: ['1 / 20', '4 / 8', '6 / 6']
+    flash: false,
+    log: ['1 / 20', '4 / 8', '6 / 6'],
+    rollQuality: '',
   };
 
   spinSpeed = 0.01;
@@ -58,9 +60,31 @@ class Dice extends Component {
   }
 
   roll(die) {
+    this.setState({ flash: false })
     let result = Math.ceil(Math.random() * die);
     this.setState({ roll: result });
-    console.log({ result });
+    this.rollQuality(result);
+    // Quick dirty animation
+    setTimeout(() => {
+      this.setState({ flash: true });
+    }, 1)
+  }
+
+  rollQuality(roll) {
+    let quality;
+    if (roll === 1 ) {
+      quality = 'horrible'
+    } else if (roll > 1 && roll < 7) {
+      quality = 'bad'
+    } else if (roll >= 7 && roll < 14) {
+      quality = 'medium'
+    } else if (roll >= 14 && roll < 20){
+      quality = 'good'
+    } else {
+      quality = 'godly'
+    }
+
+    this.setState({ rollQuality: quality })
   }
 
   componentDidMount() {
@@ -328,11 +352,11 @@ class Dice extends Component {
         {this.state.roll === 0 ? (
           <p className="roll"> click dice to start</p>
         ) : (
-          <div className="roll">You rolled {this.state.roll}</div>
+          <div className={`roll`} >
+          You rolled
+            <div className={this.state.flash ? `flash ${this.state.rollQuality}` : ''}> {this.state.roll}</div>
+          </div>
         )}
-        {/* <div className='log'>
-          oh hi
-        </div> */}
         <RollLog rolls={this.state.log} />
       </div>
     );
