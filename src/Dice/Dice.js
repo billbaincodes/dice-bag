@@ -63,22 +63,27 @@ class Dice extends Component {
     this.setState({ flash: false })
     let result = Math.ceil(Math.random() * die);
     this.setState({ roll: result });
-    this.rollQuality(result);
+    this.rollQuality(result, die);
     // Quick dirty animation
     setTimeout(() => {
       this.setState({ flash: true });
     }, 1)
   }
 
-  rollQuality(roll) {
+  rollQuality(roll, die) {
+    let val = roll / die
+    console.log({ val });
     let quality;
+    if (roll === 20 && die === 20) {
+      quality = 'nat20'
+    }
     if (roll === 1 ) {
       quality = 'horrible'
-    } else if (roll > 1 && roll < 7) {
+    } else if (val > 0.01 && val < 0.33) {
       quality = 'bad'
-    } else if (roll >= 7 && roll < 14) {
+    } else if (val >= 0.33 && val < 0.66) {
       quality = 'medium'
-    } else if (roll >= 14 && roll < 20){
+    } else if (val >= 0.66 && val < 1.01){
       quality = 'good'
     } else {
       quality = 'godly'
