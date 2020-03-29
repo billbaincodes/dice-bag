@@ -51,14 +51,11 @@ class RollLog extends Component {
     return (
 
       <div id='container'>
-			<div id="elem" onmousedown='mydragg.startMoving(this,"container",event);' onmouseup='mydragg.stopMoving("container");'>
-        <h2 class="header">Roll Log:</h2>
+        <h2 className="header">Roll Log:</h2>
         {this.props.rolls.map((roll, idx) => (
           <p key={`roll-${idx}`}>{roll}</p>
         ))}
       </div>
-      </div>
-
     );
   }
 }
