@@ -24,7 +24,36 @@ button {
 }
 
 .roll {
+  margin-top: 4rem;
   color: gray;
   font-size: 3rem;
-  margin: 4rem 0rem;
+}
+
+.flash {
+  /* width: 2rem; */
+  animation-name: example;
+  animation-duration: 1s;
+}
+
+@keyframes example {
+  from {
+    opacity: 0.5;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+.good {
+  color: green;
+}
+
+.medium {
+  color: yellow
+}
+
+.bad {
+  color: red;
 }
