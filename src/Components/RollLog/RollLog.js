@@ -49,9 +49,8 @@ class RollLog extends Component {
 
   render() {
     return (
-
-      <div id='container'>
-        <h2 className="header">Roll Log:</h2>
+      <div className="log">
+        <h2>Roll Log:</h2>
         {this.props.rolls.map((roll, idx) => (
           <p key={`roll-${idx}`}>{roll}</p>
         ))}

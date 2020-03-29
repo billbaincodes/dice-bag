@@ -15,7 +15,7 @@ class Dice extends Component {
     settings: true,
     animate: true,
     flash: false,
-    log: ['1 / 20', '4 / 8', '6 / 6'],
+    rollLog: [],
     rollQuality: '',
   };
 
@@ -64,10 +64,19 @@ class Dice extends Component {
     let result = Math.ceil(Math.random() * die);
     this.setState({ roll: result });
     this.rollQuality(result, die);
+    this.logRoll(result, die)
     // Quick dirty animation
     setTimeout(() => {
       this.setState({ flash: true });
     }, 1)
+  }
+
+  logRoll(roll, die) {
+    let date = new Date().toLocaleTimeString()
+    date = date.substring(0, 8)
+console.log({ date});
+    this.state.rollLog.unshift(`${date} ___ ${roll} / ${die}`)
+
   }
 
   rollQuality(roll, die) {
@@ -361,7 +370,7 @@ class Dice extends Component {
             <div className={this.state.flash ? `flash ${this.state.rollQuality}` : ''}> {this.state.roll}</div>
           </div>
         )}
-        <RollLog rolls={this.state.log} />
+        <RollLog rolls={this.state.rollLog} />
       </div>
     );
   }
