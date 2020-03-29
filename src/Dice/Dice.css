@@ -47,13 +47,21 @@ button {
 }
 
 .good {
-  color: green;
+  color: rgb(0, 75, 0);
 }
 
 .medium {
-  color: yellow
+  color: rgb(138, 138, 138)
 }
 
 .bad {
+  color: rgb(102, 0, 0);
+}
+
+.horrible {
   color: red;
+}
+
+.godly {
+  color: rgb(120, 187, 20);
 }
