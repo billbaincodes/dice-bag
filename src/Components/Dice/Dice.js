@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import * as THREE from "three";
-import "./Dice.css";
+import "./Dice.scss";
 import RollLog from '../RollLog/RollLog'
 
 class Dice extends Component {

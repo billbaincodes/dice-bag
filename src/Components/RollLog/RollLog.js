@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./RollLog.css";
+import "./RollLog.scss";
 
 class RollLog extends Component {
   componentDidMount() {
