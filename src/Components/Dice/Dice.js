@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import * as THREE from "three";
 import "./Dice.css";
-import RollLog from '../Components/RollLog'
+import RollLog from '../RollLog/RollLog'
 
 class Dice extends Component {
   state = {
@@ -343,16 +343,15 @@ class Dice extends Component {
             <span
               onClick={() => this.setState({ settings: !this.state.settings })}
             >
-              {" "}
-              X{" "}
+            <i className="settings fas fa-cog"></i>
             </span>
           </header>
         ) : (
-          <div
+          <button className={this.state.darkMode ? "light" : "dark"}
             onClick={() => this.setState({ settings: !this.state.settings })}
           >
-            settings
-          </div>
+            <i className="settings fas fa-cog"></i>
+          </button>
         )}
         {this.state.roll === 0 ? (
           <p className="roll"> click dice to start</p>
