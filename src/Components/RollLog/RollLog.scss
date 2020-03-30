@@ -6,9 +6,27 @@
   color: white;
   border: 1px solid black;
   overflow: scroll;
+  padding: 0.5rem;
 }
 
 h2 {
   border-bottom: 1px solid white;
   margin: 0.2rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0.4rem;
+  font-size: 3rem;
+}
+
+.total {
+  width: 1.2rem;
+  font-size: .8rem;
+}
+
+.roll-value {
+  display: flex;
+  align-items: baseline;
 }

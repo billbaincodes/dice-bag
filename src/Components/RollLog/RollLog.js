@@ -4,7 +4,7 @@ import "./RollLog.scss";
 class RollLog extends Component {
   componentDidMount() {
     var mydragg = (function() {
-      console.log('drag fool!!')
+      console.log("drag fool!!");
       return {
         move: function(divid, xpos, ypos) {
           divid.style.left = xpos + "px";
@@ -52,7 +52,13 @@ class RollLog extends Component {
       <div className="log">
         <h2>Roll Log:</h2>
         {this.props.rolls.map((roll, idx) => (
-          <p key={`roll-${idx}`}>{roll}</p>
+          <div className='row'>
+            <span>{roll.date}</span>
+            <div className='roll-value'>
+              <div>{roll.roll}</div>
+              <div className='total'> /{roll.die}</div>
+            </div>
+          </div>
         ))}
       </div>
     );

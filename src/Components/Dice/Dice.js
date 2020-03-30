@@ -74,14 +74,11 @@ class Dice extends Component {
   logRoll(roll, die) {
     let date = new Date().toLocaleTimeString()
     date = date.substring(0, 8)
-console.log({ date});
-    this.state.rollLog.unshift(`${date} ___ ${roll} / ${die}`)
-
+    this.state.rollLog.unshift({ roll, die, date });
   }
 
   rollQuality(roll, die) {
     let val = roll / die
-    console.log({ val });
     let quality;
     if (roll === 20 && die === 20) {
       quality = 'nat20'
@@ -298,9 +295,7 @@ console.log({ date});
   colorSet(event) {
     let color = event.target.value;
     color = color.replace("#", "0x");
-    this.setState({
-      color
-    });
+    this.setState({ color });
   }
 
   colorSynth() {
