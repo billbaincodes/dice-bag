@@ -1,12 +1,14 @@
 .log {
   position: absolute;
-  height: 10rem;
-  width: 10rem;
-  background-color: rgba(0, 0, 0, .5);
+  min-height: 20vh;
+  min-width: 20vw;
+  max-height: 32vh;
+  background-color: rgba(58, 58, 58, 0.5);
   color: white;
   border: 1px solid black;
   overflow: scroll;
   padding: 0.5rem;
+  resize: vertical;
 }
 
 h2 {
@@ -18,7 +20,12 @@ h2 {
   display: flex;
   justify-content: space-between;
   margin: 0 0.4rem;
-  font-size: 3rem;
+  font-size: 1.4rem;
+  align-items: baseline;
+
+  span {
+    font-size: 1rem;
+  }
 }
 
 .total {

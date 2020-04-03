@@ -73,7 +73,6 @@ class Dice extends Component {
 
   logRoll(roll, die) {
     let date = new Date().toLocaleTimeString()
-    date = date.substring(0, 8)
     this.state.rollLog.unshift({ roll, die, date });
   }
 
