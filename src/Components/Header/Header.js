@@ -1,12 +1,57 @@
-import React from 'react'
-import './Header.scss'
+import React, { Component } from "react";
+import "./Header.scss";
 
-const Header = () => {
-  return(
-    <div>
-      Become one with inner seflness
-    </div>
-  )
+class Header extends Component {
+  state = {
+    darkMode: false,
+  };
+
+  render() {
+    return (
+      <header className={this.state.darkMode ? "light" : "dark"}>
+        ⏣ become one with inner selfness ⏣
+        <button
+          className={this.state.darkMode ? "light" : "dark"}
+          onClick={() => this.props.colorRandomizer()}
+        >
+          Random Color!
+        </button>
+        <button
+          className={this.state.darkMode ? "light" : "dark"}
+          onClick={() => this.setSpeed()}
+        >
+          Faster!!
+        </button>
+        <label htmlFor="color-set">Choose Color: </label>
+        <input
+          onChange={(e) => this.props.colorSet(e)}
+          id="color-set"
+          type="color"
+        ></input>
+        <button
+          className={this.state.darkMode ? "light" : "dark"}
+          onClick={() => this.props.colorSynth()}
+        >
+          s y n t h w a v e
+        </button>
+        <button
+          className={this.state.darkMode ? "light" : "dark"}
+          onClick={() => this.props.darkToggle()}
+        >
+          {this.state.darkMode ? "Light" : "Dark"} Mode
+        </button>
+        <button
+          className={this.state.darkMode ? "light" : "dark"}
+          onClick={() => this.props.batterySaver()}
+        >
+          Battery Saver
+        </button>
+        <span onClick={() => this.setState({ settings: !this.state.settings })}>
+          <i className="settings fas fa-cog"></i>
+        </span>
+      </header>
+    );
+  }
 }
 
-export default Header
+export default Header;

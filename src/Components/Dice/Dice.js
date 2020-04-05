@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as THREE from "three";
 import "./Dice.scss";
 import RollLog from '../RollLog/RollLog'
+import Header from '../Header/Header'
 
 class Dice extends Component {
   state = {
@@ -25,7 +26,7 @@ class Dice extends Component {
   camera;
   renderer;
 
-  colorRandomizer() {
+  colorRandomizer = () => {
     let chars = "12345678abcdefABCDEF";
     let randomSet = [];
     for (let i = 0; i < 6; i++) {
@@ -33,7 +34,7 @@ class Dice extends Component {
       randomSet.push(chars[n]);
     }
     let randomColor = randomSet.join("");
-
+    console.log({ randomColor });
     this.setState({
       color: `0x${randomColor}`
     });
@@ -52,7 +53,7 @@ class Dice extends Component {
     }
   }
 
-  setBg() {
+  darkToggle = () => {
     let bgColor = this.state.bgColor === "black" ? "white" : "black";
     this.setState({ bgColor });
     let current = this.state.darkMode;
@@ -291,64 +292,35 @@ class Dice extends Component {
     animate();
   }
 
-  colorSet(event) {
+  colorSet = (event) => {
     let color = event.target.value;
     color = color.replace("#", "0x");
     this.setState({ color });
   }
 
-  colorSynth() {
+  colorSynth = () => {
     this.setState({
-      synthwave: !this.state.synthwave
+      synthwave: !this.state.synthwave,
     });
+  }
+
+  batterySaver = () => {
+    this.setState({
+      animate: !this.state.animate,
+    })
   }
 
   render() {
     return (
       <div>
         {this.state.settings ? (
-          <header className={this.state.darkMode ? "light" : "dark"}>
-            ⏣ become one with inner selfness ⏣
-            <button
-              className={this.state.darkMode ? "light" : "dark"}
-              onClick={() => this.colorRandomizer()}
-            >
-              Random Color!
-            </button>
-            <button
-              className={this.state.darkMode ? "light" : "dark"}
-              onClick={() => this.setSpeed()}
-            >
-              Faster!!
-            </button>
-            <label htmlFor="color-set">Choose Color: </label>
-            <input
-              onChange={e => this.colorSet(e)}
-              id="color-set"
-              type="color"
-            ></input>
-            <button
-              className={this.state.darkMode ? "light" : "dark"}
-              onClick={() => this.colorSynth()}
-            >
-              s y n t h w a v e
-            </button>
-            <button
-              className={this.state.darkMode ? "light" : "dark"}
-              onClick={() => this.setBg()}
-            >
-              {this.state.darkMode ? "Light" : "Dark"} Mode
-            </button>
-            <button className={this.state.darkMode ? "light" : "dark"}
-              onClick={() => this.setState({ animate: !this.state.animate })}>
-              Battery Saver
-            </button>
-            <span
-              onClick={() => this.setState({ settings: !this.state.settings })}
-            >
-            <i className="settings fas fa-cog"></i>
-            </span>
-          </header>
+          <Header 
+            colorRandomizer={this.colorRandomizer}
+            colorSynth={this.colorSynth}
+            colorSet={this.colorSet}
+            darkToggle={this.darkToggle}
+            batterySaver={this.batterySaver}
+          />
         ) : (
           <button className={this.state.darkMode ? "light" : "dark"}
             onClick={() => this.setState({ settings: !this.state.settings })}
