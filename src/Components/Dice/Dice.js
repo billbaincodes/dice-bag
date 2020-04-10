@@ -40,7 +40,7 @@ class Dice extends Component {
     });
   }
 
-  setSpeed() {
+  setSpeed = () => {
     if (this.state.spinSpeed < 0.2) {
       let currSpeed = this.state.spinSpeed;
       this.setState({
@@ -249,15 +249,13 @@ class Dice extends Component {
         dice.forEach(die => {
           die.material = synthwave;
         })
-
-
-
       } else if (this.state.rainbow) {
         d20.material.color.set(color);
-      } else {
-
         dice.forEach(die => {
-          die.material = material;
+          die.material.color.set(color);
+        })
+      } else {
+        dice.forEach(die => {
           die.material.color.setHex(this.state.color);
         })
         // d20.material = material;
@@ -304,9 +302,21 @@ class Dice extends Component {
     });
   }
 
+  colorRainbow = () => {
+    this.setState({
+      rainbow: !this.state.rainbow,
+    })
+  }
+
   batterySaver = () => {
     this.setState({
       animate: !this.state.animate,
+    })
+  }
+
+  toggleSettings = () => {
+    this.setState({
+      settings: !this.state.settings,
     })
   }
 
@@ -320,20 +330,24 @@ class Dice extends Component {
             colorSet={this.colorSet}
             darkToggle={this.darkToggle}
             batterySaver={this.batterySaver}
+            setSpeed={this.setSpeed}
+            colorRainbow={this.colorRainbow}
+            toggleSettings={this.toggleSettings}
           />
         ) : (
-          <button className={this.state.darkMode ? "light" : "dark"}
+          <div
+          className='settings'
             onClick={() => this.setState({ settings: !this.state.settings })}
           >
-            <i className="settings fas fa-cog"></i>
-          </button>
+            <i className={this.state.settings ? "open fas fa-cog" : "closed fas fa-cog"}></i>
+          </div>
         )}
         {this.state.roll === 0 ? (
           <p className="roll"> click dice to start</p>
         ) : (
           <div className={`roll`} >
           You rolled
-            <div className={this.state.flash ? `flash ${this.state.rollQuality}` : ''}> {this.state.roll}</div>
+            <div className={this.state.flash ? `flash ${this.state.rollQuality}` : ''}>{this.state.roll} </div>
           </div>
         )}
         <RollLog rolls={this.state.rollLog} />

@@ -18,7 +18,7 @@ class Header extends Component {
         </button>
         <button
           className={this.state.darkMode ? "light" : "dark"}
-          onClick={() => this.setSpeed()}
+          onClick={() => this.props.setSpeed()}
         >
           Faster!!
         </button>
@@ -46,7 +46,8 @@ class Header extends Component {
         >
           Battery Saver
         </button>
-        <span onClick={() => this.setState({ settings: !this.state.settings })}>
+        <button onClick={() => this.props.colorRainbow()}></button>
+        <span onClick={() => this.props.toggleSettings()}>
           <i className="settings fas fa-cog"></i>
         </span>
       </header>

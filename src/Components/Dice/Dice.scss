@@ -1,4 +1,17 @@
+
+p {
+  margin: 0;
+}
+
+input[type="color"] {
+  padding: 0;
+  border: none;
+  margin: 0;
+  background-color: transparent;
+}
+
 header {
+  height: 2.6rem;
   background-color: rgba(0, 0, 0, 0.75);
   color: white;
   width: 100%;
@@ -6,7 +19,6 @@ header {
 
 .dark {
   color: white;
-  /* background-color: rgba(0, 0, 0, 0.75); */
 }
 
 .light {
@@ -25,24 +37,27 @@ button {
 }
 
 .roll {
-  margin-top: 4rem;
+  margin: 4rem 0 4rem 0;
   color: gray;
   font-size: 3rem;
+  height: 4rem;
 }
 
 .flash {
   /* width: 2rem; */
-  animation-name: example;
+  animation-name: flash;
   animation-duration: 1s;
 }
 
-@keyframes example {
+@keyframes flash {
   from {
-    opacity: 0.5;
+    // opacity: 0;
+    transform: scale(1);
     transform: translateY(-20px);
   }
   to {
-    opacity: 1;
+    // opacity: 1;
+    transform: scale(1.2);
     transform: translateY(0px);
   }
 }
@@ -65,4 +80,21 @@ button {
 
 .godly {
   color: rgb(120, 187, 20);
+}
+
+.closed {
+  margin: 1rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: gray;
+  transition: 1s;
+}
+
+.closed:hover {
+  transform: scale(1.4);
+}
+
+.settings {
+  height: 2.6rem;
 }
