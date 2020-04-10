@@ -244,18 +244,16 @@ class Dice extends Component {
       line.material.color.set(color);
 
       if (this.state.synthwave) {
-        d20.material = synthwave;
-
         dice.forEach(die => {
           die.material = synthwave;
         })
       } else if (this.state.rainbow) {
-        d20.material.color.set(color);
         dice.forEach(die => {
           die.material.color.set(color);
         })
       } else {
         dice.forEach(die => {
+          die.material = material
           die.material.color.setHex(this.state.color);
         })
         // d20.material = material;
@@ -280,13 +278,12 @@ class Dice extends Component {
       // find intersections
       raycaster.setFromCamera(mouse, this.camera);
       var intersects = raycaster.intersectObjects(scene.children);
-      if (intersects.length) {
+      if (intersects.length && intersects[0].object.name) {
         this.roll(intersects[0].object.name);
       }
     };
 
     document.addEventListener("mousedown", onDocumentMouseDown, false);
-
     animate();
   }
 
