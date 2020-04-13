@@ -9,7 +9,12 @@ class Header extends Component {
   render() {
     return (
       <header className={this.state.darkMode ? "light" : "dark"}>
-        ⏣ become one with inner selfness ⏣
+        <button
+          className={this.state.darkMode ? "light" : "dark"}
+          onClick={() => this.props.toggleLog()}
+        >
+          Roll Log
+        </button>
         <button
           className={this.state.darkMode ? "light" : "dark"}
           onClick={() => this.props.colorRandomizer()}

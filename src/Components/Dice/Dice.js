@@ -16,6 +16,7 @@ class Dice extends Component {
     settings: true,
     animate: true,
     flash: false,
+    log: false,
     rollLog: [],
     rollQuality: '',
   };
@@ -317,6 +318,12 @@ class Dice extends Component {
     })
   }
 
+  toggleLog = () => {
+    this.setState({
+      log: !this.state.log,
+    })
+  }
+
   render() {
     return (
       <div>
@@ -330,6 +337,7 @@ class Dice extends Component {
             setSpeed={this.setSpeed}
             colorRainbow={this.colorRainbow}
             toggleSettings={this.toggleSettings}
+            toggleLog={this.toggleLog}
           />
         ) : (
           <div
@@ -347,7 +355,13 @@ class Dice extends Component {
             <div className={this.state.flash ? `flash ${this.state.rollQuality}` : ''}>{this.state.roll} </div>
           </div>
         )}
-        <RollLog rolls={this.state.rollLog} />
+        {this.state.log &&
+          <RollLog
+          toggleLog={this.toggleLog}
+          rolls={this.state.rollLog}
+        />
+        }
+
       </div>
     );
   }
