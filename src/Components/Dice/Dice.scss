@@ -83,17 +83,19 @@ button {
 }
 
 .closed {
-  margin: 1rem;
+  font-size: 1.4rem;
+  margin: 0.5rem;
   position: absolute;
   right: 0;
   top: 0;
   color: gray;
-  transition: 1s;
+  transition: all 0.3s ease-in-out 0s
 }
 
 .closed:hover {
-  transform: scale(1.4);
+  animation: rotation 4s infinite ease;
 }
+
 
 .settings {
   height: 2.6rem;

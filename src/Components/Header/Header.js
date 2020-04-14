@@ -53,7 +53,7 @@ class Header extends Component {
         </button>
         <button onClick={() => this.props.colorRainbow()}></button>
         <span onClick={() => this.props.toggleSettings()}>
-          <i className="settings fas fa-cog"></i>
+          <i className="close-cog fas fa-cog"></i>
         </span>
       </header>
     );
