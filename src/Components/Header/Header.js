@@ -33,12 +33,29 @@ class Header extends Component {
           id="color-set"
           type="color"
         ></input>
-        <button
-          className={this.state.darkMode ? "light" : "dark"}
-          onClick={() => this.props.colorSynth()}
-        >
-          s y n t h w a v e
-        </button>
+        <div class="dropdown">
+          <button class="dropbtn">Dropdown</button>
+          <div class="dropdown-content">
+            <button
+            className={this.state.darkMode ? "light" : "dark"}
+            onClick={() => this.props.colorSynth()}
+            >
+              s y n t h w a v e
+            </button>
+            <button
+            className={this.state.darkMode ? "light" : "dark"}
+            onClick={() => this.props.colorSynth()}
+            >
+              Rainbow
+            </button>
+            <button
+            className={this.state.darkMode ? "light" : "dark"}
+            onClick={() => this.props.colorSynth()}
+            >
+              Tron
+            </button>
+          </div>
+        </div>
         <button
           className={this.state.darkMode ? "light" : "dark"}
           onClick={() => this.props.darkToggle()}
