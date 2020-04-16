@@ -4,9 +4,12 @@ import "./Dice.scss";
 import RollLog from '../RollLog/RollLog'
 import Header from '../Header/Header'
 
+import textureImg from '../../assets/texture.jpg'
+import textureWood from '../../assets/wood.png'
+
 class Dice extends Component {
   state = {
-    color: 0xfffff,
+    color: 0xffffff,
     bgColor: "white",
     spinSpeed: 0.01,
     synthwave: false,
@@ -165,7 +168,10 @@ class Dice extends Component {
     trapezTop2.translate(0, 0.5, 0);
     trapezBot2.translate(0, -0.5, 0);
 
-    material = new THREE.MeshStandardMaterial({ color: 0xff0051 });
+
+    const loader = new THREE.TextureLoader();
+    material = new THREE.MeshStandardMaterial({ color: 0xff0051, map: loader.load(textureWood) });
+    let texture = new THREE.MeshBasicMaterial({ map: loader.load(textureImg)})
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
     let d100 = new THREE.Mesh(trapez2, material);
     let d100top = new THREE.Mesh(trapezTop, material);
@@ -176,7 +182,7 @@ class Dice extends Component {
     let d20 = new THREE.Mesh(icosa, material);
     let d12 = new THREE.Mesh(dodeca, material);
     let d8 = new THREE.Mesh(octa, material);
-    let d6 = new THREE.Mesh(cube, material);
+    let d6 = new THREE.Mesh(cube, texture);
     let d4 = new THREE.Mesh(tetra, material);
 
     d100.name = "100";
@@ -254,7 +260,7 @@ class Dice extends Component {
         })
       } else {
         dice.forEach(die => {
-          die.material = material
+          // die.material = material
           die.material.color.setHex(this.state.color);
         })
         // d20.material = material;
