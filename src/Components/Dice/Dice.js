@@ -5,11 +5,12 @@ import RollLog from '../RollLog/RollLog'
 import Header from '../Header/Header'
 
 import textureImg from '../../assets/texture.jpg'
-import textureWood from '../../assets/wood.png'
+import mapWood from '../../assets/wood.png'
+import mapStar from '../../assets/stars.jpg'
 
 class Dice extends Component {
   state = {
-    color: 0xffffff,
+    color: 0xfffff,
     bgColor: "white",
     spinSpeed: 0.01,
     synthwave: false,
@@ -22,6 +23,11 @@ class Dice extends Component {
     log: false,
     rollLog: [],
     rollQuality: '',
+    texture: {
+      wood: false,
+      metal: false,
+      stone: false,
+    }
   };
 
   spinSpeed = 0.01;
@@ -169,10 +175,17 @@ class Dice extends Component {
     trapezBot2.translate(0, -0.5, 0);
 
 
+
+    // Materials
     const loader = new THREE.TextureLoader();
-    material = new THREE.MeshStandardMaterial({ color: 0xff0051, map: loader.load(textureWood) });
-    let texture = new THREE.MeshBasicMaterial({ map: loader.load(textureImg)})
+    let textureWood = new THREE.MeshBasicMaterial({ map: loader.load(mapWood)});
+    let textureStar = new THREE.MeshBasicMaterial({ map: loader.load(mapStar)})
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
+
+    // material = new THREE.MeshStandardMaterial();
+    material = new THREE.MeshToonMaterial({ shininess: 0, specular: 'red' })
+    let outlineMat = new THREE.MeshBasicMaterial({ color: 'red' })
+
     let d100 = new THREE.Mesh(trapez2, material);
     let d100top = new THREE.Mesh(trapezTop, material);
     let d100bot = new THREE.Mesh(trapezBot, material);
@@ -182,8 +195,16 @@ class Dice extends Component {
     let d20 = new THREE.Mesh(icosa, material);
     let d12 = new THREE.Mesh(dodeca, material);
     let d8 = new THREE.Mesh(octa, material);
-    let d6 = new THREE.Mesh(cube, texture);
+    let d6 = new THREE.Mesh(cube, material);
     let d4 = new THREE.Mesh(tetra, material);
+
+
+    let d6Outline = new THREE.Mesh(cube, outlineMat)
+    d6.scale.set(1.1, 1.1, 1.1);
+    d6Outline.translate(0, 0, 0)
+    // d6Outline.position.set(cube.position)
+    scene.add(d6Outline);
+
 
     d100.name = "100";
     d20.name = "20";
