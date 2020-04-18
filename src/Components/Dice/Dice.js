@@ -132,11 +132,13 @@ class Dice extends Component {
     scene = new THREE.Scene();
 
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
+    // scene.add(ambientLight);
 
     var pointLight = new THREE.PointLight(0xffffff, 0.8);
     pointLight.position.set(25, 50, 25);
     scene.add(pointLight);
+
+
 
     // Polygon
     let poly = new THREE.IcosahedronGeometry(2, 0);
@@ -153,6 +155,7 @@ class Dice extends Component {
     let tetra = new THREE.TetrahedronGeometry(1, 0);
     let octa = new THREE.OctahedronGeometry(1, 0);
     let cube = new THREE.BoxGeometry(1, 0);
+    let cubeOutline = new THREE.BoxGeometry(1, 0);
     let trapezTop = new THREE.ConeGeometry(1, 1, 6);
     let trapezBot = new THREE.ConeGeometry(1, 1, 6);
     let trapez = new THREE.Geometry();
@@ -164,6 +167,7 @@ class Dice extends Component {
     dodeca.translate(3, -4, 0);
     octa.translate(-3, -4, 0);
     cube.translate(-6, -4, 0);
+    cubeOutline.translate(-6, -4, 0);
     // cube.center(2, 2, 2);
     // cube.translate(-6, -4, 0);
     tetra.translate(-9, -4, 0);
@@ -183,9 +187,8 @@ class Dice extends Component {
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
 
     // material = new THREE.MeshStandardMaterial();
-    material = new THREE.MeshToonMaterial({ shininess: 0, specular: 'red' })
-    let outlineMat = new THREE.MeshBasicMaterial({ color: 'red' })
-
+    material = new THREE.MeshToonMaterial({ shininess: 5, specular: 'white', roughness: 10 })
+    let outlineMat = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide})
     let d100 = new THREE.Mesh(trapez2, material);
     let d100top = new THREE.Mesh(trapezTop, material);
     let d100bot = new THREE.Mesh(trapezBot, material);
@@ -199,11 +202,12 @@ class Dice extends Component {
     let d4 = new THREE.Mesh(tetra, material);
 
 
-    let d6Outline = new THREE.Mesh(cube, outlineMat)
-    d6.scale.set(1.1, 1.1, 1.1);
-    d6Outline.translate(0, 0, 0)
-    // d6Outline.position.set(cube.position)
-    scene.add(d6Outline);
+
+    let d6Outline = new THREE.Mesh(cubeOutline, outlineMat)
+    d6Outline.scale.set(1.08, 1.08, 1.08);
+    d6Outline.translateX(10)
+    // d6Outline.position = cube.position
+    // scene.add(d6Outline);
 
 
     d100.name = "100";
@@ -223,6 +227,7 @@ class Dice extends Component {
     trapez2.translate(9, -4, 0);
 
     let dice = [d4, d6, d8, d10, d12, d20, d100];
+    let outlines = [d6Outline]
     let center = {};
 
     // Center around own axes and add to scene
@@ -233,6 +238,15 @@ class Dice extends Component {
       die.geometry.center();
       die.position.copy(center[die]);
       scene.add(die);
+    });
+
+    outlines.forEach(outline => {
+      center[outline] = new THREE.Vector3();
+      outline.geometry.computeBoundingBox();
+      outline.geometry.boundingBox.getCenter(center[outline]);
+      outline.geometry.center();
+      outline.position.copy(center[outline]);
+      scene.add(outline);
     });
 
     // Render
@@ -259,6 +273,7 @@ class Dice extends Component {
       d6.rotation.y += 0.007;
       d4.rotation.y += 0.007;
 
+      d6Outline.rotation.y += 0.007
       // d6.rotateOnAxis()
 
       line.rotation.x += 0.01;
