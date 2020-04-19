@@ -132,7 +132,7 @@ class Dice extends Component {
     scene = new THREE.Scene();
 
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    // scene.add(ambientLight);
+    scene.add(ambientLight);
 
     var pointLight = new THREE.PointLight(0xffffff, 0.8);
     pointLight.position.set(25, 50, 25);
@@ -182,12 +182,15 @@ class Dice extends Component {
 
     // Materials
     const loader = new THREE.TextureLoader();
-    let textureWood = new THREE.MeshBasicMaterial({ map: loader.load(mapWood)});
-    let textureStar = new THREE.MeshBasicMaterial({ map: loader.load(mapStar)})
+    let textureWood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood)});
+    let textureStar = new THREE.MeshStandardMaterial({ map: loader.load(mapStar)})
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
+    let toonMat = new THREE.MeshToonMaterial({ shininess: 5, specular: 'white'})
+    let basic = new THREE.MeshStandardMaterial()
+    let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'black' })
 
     // material = new THREE.MeshStandardMaterial();
-    material = new THREE.MeshToonMaterial({ shininess: 5, specular: 'white', roughness: 10 })
+    material = basic
     let outlineMat = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide})
     let d100 = new THREE.Mesh(trapez2, material);
     let d100top = new THREE.Mesh(trapezTop, material);
@@ -200,7 +203,6 @@ class Dice extends Component {
     let d8 = new THREE.Mesh(octa, material);
     let d6 = new THREE.Mesh(cube, material);
     let d4 = new THREE.Mesh(tetra, material);
-
 
 
     let d6Outline = new THREE.Mesh(cubeOutline, outlineMat)
@@ -246,7 +248,7 @@ class Dice extends Component {
       outline.geometry.boundingBox.getCenter(center[outline]);
       outline.geometry.center();
       outline.position.copy(center[outline]);
-      scene.add(outline);
+      // scene.add(outline);
     });
 
     // Render
@@ -255,6 +257,10 @@ class Dice extends Component {
     document.body.appendChild(renderer.domElement);
 
     let hue = 0;
+
+    const spinner = () => {
+      this.setState()
+    }
 
     const animate = () => {
       // Turn off animations
