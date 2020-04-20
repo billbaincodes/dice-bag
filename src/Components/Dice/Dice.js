@@ -27,6 +27,11 @@ class Dice extends Component {
       wood: false,
       metal: false,
       stone: false,
+    },
+    designs: {
+      d6: {
+        mesh: false,
+      }
     }
   };
 
