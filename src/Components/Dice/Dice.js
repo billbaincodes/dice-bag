@@ -4,7 +4,6 @@ import "./Dice.scss";
 import RollLog from '../RollLog/RollLog'
 import Header from '../Header/Header'
 
-import textureImg from '../../assets/texture.jpg'
 import mapWood from '../../assets/wood.png'
 import mapStar from '../../assets/stars.jpg'
 
@@ -129,15 +128,14 @@ class Dice extends Component {
   }
 
   pixar() {
-    // this.cameraGen();
     let scene, renderer;
     let material, line;
     let lineColor = this.state.color;
 
     scene = new THREE.Scene();
 
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
+    var ambientLight = new THREE.AmbientLight(0xffffff);
+    // scene.add(ambientLight);
 
     var pointLight = new THREE.PointLight(0xffffff, 0.8);
     pointLight.position.set(25, 50, 25);
@@ -173,8 +171,6 @@ class Dice extends Component {
     octa.translate(-3, -4, 0);
     cube.translate(-6, -4, 0);
     cubeOutline.translate(-6, -4, 0);
-    // cube.center(2, 2, 2);
-    // cube.translate(-6, -4, 0);
     tetra.translate(-9, -4, 0);
     trapezBot.rotateX(Math.PI);
     trapezTop.translate(0, 0.5, 0);
@@ -190,12 +186,14 @@ class Dice extends Component {
     let textureWood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood)});
     let textureStar = new THREE.MeshStandardMaterial({ map: loader.load(mapStar)})
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
-    let toonMat = new THREE.MeshToonMaterial({ shininess: 5, specular: 'white'})
+    let toon = new THREE.MeshToonMaterial()
     let basic = new THREE.MeshStandardMaterial()
+    let lambert = new THREE.MeshLambertMaterial({ flatShading: true, color: 'red', emissive: 'black', shininess: 140 });
+    let phong = new THREE.MeshPhongMaterial({ color: 'blue', shininess: 120 })
     let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'black' })
 
     // material = new THREE.MeshStandardMaterial();
-    material = basic
+    material = phong
     let outlineMat = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide})
     let d100 = new THREE.Mesh(trapez2, material);
     let d100top = new THREE.Mesh(trapezTop, material);
@@ -253,7 +251,7 @@ class Dice extends Component {
       outline.geometry.boundingBox.getCenter(center[outline]);
       outline.geometry.center();
       outline.position.copy(center[outline]);
-      // scene.add(outline);
+      scene.add(outline);
     });
 
     // Render
@@ -285,7 +283,6 @@ class Dice extends Component {
       d4.rotation.y += 0.007;
 
       d6Outline.rotation.y += 0.007
-      // d6.rotateOnAxis()
 
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
@@ -308,7 +305,7 @@ class Dice extends Component {
       } else {
         dice.forEach(die => {
           // die.material = material
-          die.material.color.setHex(this.state.color);
+          // die.material.color.setHex(this.state.color);
         })
         // d20.material = material;
         // d20.material.color.setHex(this.state.color);
