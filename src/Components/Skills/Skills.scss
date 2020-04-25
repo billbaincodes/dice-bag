@@ -1,143 +1,27 @@
-.ability-block {
-  display: flex;
-  flex-direction: column;
-  color: red;
+.container {
   width: 100%;
+  padding: 0 1rem;
 }
 
-body {
-  margin: 60px auto;
-  background: #F5F5F7;
+.block {
+  color: red;
+  margin-top: 50vh;
 }
 
-#colorWheel {
-  height: 100px;
-  width: 100px;
-  margin: 0 auto;
-  position: relative;
-  -webkit-transform-origin: 50px 150px;
-  -moz-transform-origin: 50px 150px;
-  -ms-transform-origin: 50px 150px;
-  -o-transform-origin: 50px 150px;
-  transform-origin: 50px 150px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-  -webkit-transition: all 0.5s linear;
-  -moz-transition: all 0.5s linear;
-  -ms-transition: all 0.5s linear;
-  -o-transition: all 0.5s linear;
-  transition: all 0.5s linear;
-}
-#colorWheel span {
-  position: absolute;
-  -webkit-transform-origin: 50% 50%;
-  border-style: solid;
-  border-width: 150px 88px;
-  box-sizing: border-box;
+.tabs {
+  display: flex;
+  justify-content: space-evenly;
 }
 
-#colorWheel span.color01 {
-  -webkit-transform: rotate(0deg);
-  -moz-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
-  border-color: #43a1cd transparent transparent transparent;
+.block {
+  border: 1px solid gray;
+
 }
 
-#colorWheel span.color02 {
-  -webkit-transform: rotate(60deg);
-  -moz-transform: rotate(60deg);
-  -ms-transform: rotate(60deg);
-  -o-transform: rotate(60deg);
-  transform: rotate(60deg);
-  border-color: #639b47 transparent transparent transparent;
-}
-
-#colorWheel span.color03 {
-  -webkit-transform: rotate(120deg);
-  -moz-transform: rotate(120deg);
-  -ms-transform: rotate(120deg);
-  -o-transform: rotate(120deg);
-  transform: rotate(120deg);
-  border-color: #9ac147 transparent transparent transparent;
-}
-
-#colorWheel span.color04 {
-  -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -ms-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
-  transform: rotate(180deg);
-  border-color: #e1e23b transparent transparent transparent;
-}
-
-#colorWheel span.color05 {
-  -webkit-transform: rotate(240deg);
-  -moz-transform: rotate(240deg);
-  -ms-transform: rotate(240deg);
-  -o-transform: rotate(240deg);
-  transform: rotate(240deg);
-  border-color: #f7941e transparent transparent transparent;
-}
-
-#colorWheel span.color06 {
-  -webkit-transform: rotate(300deg);
-  -moz-transform: rotate(300deg);
-  -ms-transform: rotate(300deg);
-  -o-transform: rotate(300deg);
-  transform: rotate(300deg);
-  border-color: #ba3e2e transparent transparent transparent;
-}
-
-#colorWheel span.color07 {
-  -webkit-transform: rotate(216deg);
-  -moz-transform: rotate(216deg);
-  -ms-transform: rotate(216deg);
-  -o-transform: rotate(216deg);
-  transform: rotate(216deg);
-  border-color: #9a1d34 transparent transparent transparent;
-}
-
-#colorWheel span.color08 {
-  -webkit-transform: rotate(252deg);
-  -moz-transform: rotate(252deg);
-  -ms-transform: rotate(252deg);
-  -o-transform: rotate(252deg);
-  transform: rotate(252deg);
-  border-color: #662a6c transparent transparent transparent;
-}
-
-#colorWheel span.color09 {
-  -webkit-transform: rotate(288deg);
-  -moz-transform: rotate(288deg);
-  -ms-transform: rotate(288deg);
-  -o-transform: rotate(288deg);
-  transform: rotate(288deg);
-  border-color: #272b66 transparent transparent transparent;
-}
-
-#colorWheel span.color10 {
-  -webkit-transform: rotate(324deg);
-  -moz-transform: rotate(324deg);
-  -ms-transform: rotate(324deg);
-  -o-transform: rotate(324deg);
-  transform: rotate(324deg);
-  border-color: #2d559f transparent transparent transparent;
-}
-
-#colorWheel:before {
-  content: "";
-  width: 300px;
-  height: 300px;
-  overflow: hidden;
-  position: absolute;
-  top: -30px;
-  left: -92px;
-  border-radius: 100%;
-  border: 30px solid #ffffff;
-  z-index: 100;
+.ability-list {
+  div {
+    border: 1px solid gray;
+    margin: 1rem;
+    padding: 1rem;
+  }
 }
