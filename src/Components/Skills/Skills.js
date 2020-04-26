@@ -12,8 +12,26 @@ class Skills extends Component {
       case 'STR':
         return (
           <div className='ability-list'>
-            <div>Saving Throw</div>
-            <div>Athletics</div>
+            <span>Saving Throw</span>
+            <span>Athletics</span>
+          </div>
+        );
+      case 'DEX':
+        return (
+          <div className='ability-list'>
+            <button>Acrobtics</button>
+            <button>Sleight of Hand</button>
+            <button>Stealth</button>
+          </div>
+        );
+      case 'WIS':
+        return (
+          <div className='ability-list'>
+            <button>  Animal Handling </button>
+            <button>  Insight </button>
+            <button>  Medicine </button>
+            <button>  Perception </button>
+            <button>  Survival</button>
           </div>
         );
       default:
@@ -24,17 +42,17 @@ class Skills extends Component {
   render(){
     return (
       <div className='container'>
-        <div className='block'>
-          <div className='tabs'>
+                <div className='tabs'>
             <div>STR</div>
-            <div>DEX</div>
+            <div onClick={() => this.setState({view: 'DEX'})}>DEX</div>
             <div>CON</div>
-            <div>WIS</div>
+            <div onClick={() => this.setState({view: 'WIS'})}>WIS</div>
             <div>INT</div>
             <div>CHA</div>
             <div>Misc</div>
           </div>
-        {this.renderSwitch(this.state.view)}
+        <div className='block'>
+            {this.renderSwitch(this.state.view)}
         </div>
       </div>
     );

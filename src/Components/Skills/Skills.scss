@@ -5,12 +5,14 @@
 
 .block {
   color: red;
-  margin-top: 50vh;
+  // margin-top: 50vh;
 }
 
 .tabs {
   display: flex;
   justify-content: space-evenly;
+  line-height: 3rem;
+  border-bottom: 1px solid gray
 }
 
 .block {
@@ -19,9 +21,11 @@
 }
 
 .ability-list {
-  div {
-    border: 1px solid gray;
-    margin: 1rem;
-    padding: 1rem;
-  }
+  height: 15rem;
+}
+
+button {
+  color: blue;
+  padding: 0.5rem;
+  border: 1px solid gray;
 }
