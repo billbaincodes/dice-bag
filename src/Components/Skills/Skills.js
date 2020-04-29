@@ -107,7 +107,7 @@ class Skills extends Component {
           <div 
             className={this.state.view === 'CHA' ? 'selected' : ''}
             onClick={() => this.setState({view: 'CHA'})}>
-            Charisma
+            CHARISMA
             </div>
           <div 
             className={this.state.view === 'misc' ? 'selected' : ''}
@@ -115,7 +115,7 @@ class Skills extends Component {
             Miscellaneous
           </div>
         </div>
-        <div className='block'>
+        <div>
           {this.renderSwitch(this.state.view)}
         </div>
       </div>

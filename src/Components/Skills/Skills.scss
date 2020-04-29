@@ -1,6 +1,8 @@
 .container {
   width: 100%;
   padding: 0 1rem;
+  font-family: 'VT323', monospace;
+  font-size: 2rem;
 }
 
 .block {
@@ -12,7 +14,19 @@
   display: flex;
   justify-content: space-evenly;
   line-height: 3rem;
-  border-bottom: 1px solid gray
+  border-bottom: 1px solid gray;
+  align-items: center;
+  div {
+    max-width: 2.3rem;
+    overflow: hidden;
+    transition: 1s;
+  }
+  div.selected {
+    font-size: 1.6rem;
+    max-width: 12rem;
+    color: green;
+    transition: 1s;
+  }
 }
 
 .block {
@@ -29,3 +43,4 @@ button {
   padding: 0.5rem;
   border: 1px solid gray;
 }
+
