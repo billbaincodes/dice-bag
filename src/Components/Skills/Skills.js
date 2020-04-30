@@ -5,6 +5,106 @@ class Skills extends Component {
 
   state = {
     view: 'STR',
+    modifiers: {
+      STR: 0,
+      DEX: 0,
+      CON: 0,
+      WIS: 0,
+      INT: 0,
+      CHA: 0,
+      ATK: 0,
+      DMG: 0,
+      profBonus: 2,
+      mods: {
+        athletics: { 
+          prof: false,
+          other: 0,
+        },
+        acrobatics: { 
+          prof: false,
+          other: 0,
+        },
+        sleight: { 
+          prof: false,
+          other: 0,
+        },
+        stealth: { 
+          prof: false,
+          other: 0,
+        },
+        animal: { 
+          prof: false,
+          other: 0,
+        },
+        insight: { 
+          prof: false,
+          other: 0,
+        },
+        medicine: { 
+          prof: false,
+          other: 0,
+        },
+        perception: { 
+          prof: false,
+          other: 0,
+        },
+        survival: { 
+          prof: false,
+          other: 0,
+        },
+        arcana: { 
+          prof: false,
+          other: 0,
+        },
+        history: { 
+          prof: false,
+          other: 0,
+        },
+        investigation: { 
+          prof: false,
+          other: 0,
+        },
+        nature: { 
+          prof: false,
+          other: 0,
+        },
+        religion: { 
+          prof: false,
+          other: 0,
+        },
+        deception: { 
+          prof: false,
+          other: 0,
+        },
+        intimidation: { 
+          prof: false,
+          other: 0,
+        },
+        performance: { 
+          prof: false,
+          other: 0,
+        },
+        persuasion: { 
+          prof: false,
+          other: 0,
+        },
+        attack: { 
+          prof: false,
+          other: 0,
+        },
+        initiative: { 
+          prof: false,
+          other: 0,
+        },
+      },
+    },
+  }
+
+  roll = (check) => {
+    let value = Math.ceil(Math.random() * 20);
+    let mods = this.state.modifiers.mods[check]
+    let prof = mods.prof || this.state.modifiers.prof
+    return value + prof + mods
   }
 
   renderSwitch = (view) => {
@@ -35,11 +135,11 @@ class Skills extends Component {
         return (
           <div className='ability-list'>
             <button>Wisdom Check</button>
-            <button> Animal Handling </button>
-            <button> Insight </button>
-            <button> Medicine </button>
-            <button> Perception </button>
-            <button> Survival</button>
+            <button>Animal Handling </button>
+            <button>Insight </button>
+            <button>Medicine </button>
+            <button>Perception </button>
+            <button>Survival</button>
           </div>
         );
       case 'INT':
