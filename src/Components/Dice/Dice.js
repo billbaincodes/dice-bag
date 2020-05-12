@@ -12,6 +12,7 @@ class Dice extends Component {
     color: 0xfffff,
     bgColor: "white",
     spinSpeed: 0.01,
+    spinX: 0.00,
     synthwave: false,
     rainbow: false,
     roll: 0,
@@ -55,16 +56,40 @@ class Dice extends Component {
   }
 
   setSpeed = () => {
-    if (this.state.spinSpeed < 0.2) {
-      let currSpeed = this.state.spinSpeed;
-      this.setState({
-        spinSpeed: (currSpeed += 0.05)
-      });
-    } else {
-      this.setState({
-        spinSpeed: 0.01
-      });
-    }
+    // if (this.state.spinSpeed < 0.2) {
+    //   let currSpeed = this.state.spinSpeed;
+    //   this.setState({
+    //     spinSpeed: (currSpeed += 0.05)
+    //   });
+    // } else {
+    //   this.setState({
+    //     spinSpeed: 0.01
+    //   });
+    // }
+
+      setTimeout(() => {
+        this.setState({
+          spinX: this.state.spinX + 0.1
+        })
+      }, 0);
+
+      setTimeout(() => {
+        this.setState({
+          spinX: this.state.spinX + 0.1
+        })
+      }, 100);
+
+      setTimeout(() => {
+        this.setState({
+          spinX: this.state.spinX - 0.1
+        })
+      }, 1000);
+
+      setTimeout(() => {
+        this.setState({
+          spinX: this.state.spinX - 0.1
+        })
+      }, 1100);
   }
 
   darkToggle = () => {
@@ -193,7 +218,7 @@ class Dice extends Component {
     let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'black' })
 
     // material = new THREE.MeshStandardMaterial();
-    material = phong
+    material = basic
     let outlineMat = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide})
     let d100 = new THREE.Mesh(trapez2, material);
     let d100top = new THREE.Mesh(trapezTop, material);
@@ -261,10 +286,6 @@ class Dice extends Component {
 
     let hue = 0;
 
-    const spinner = () => {
-      this.setState()
-    }
-
     const animate = () => {
       // Turn off animations
       this.state.animate
@@ -281,6 +302,8 @@ class Dice extends Component {
       d8.rotation.y += 0.007;
       d6.rotation.y += 0.007;
       d4.rotation.y += 0.007;
+
+      d6.rotation.x += this.state.spinX;
 
       d6Outline.rotation.y += 0.007
 
