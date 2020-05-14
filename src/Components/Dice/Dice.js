@@ -160,7 +160,7 @@ class Dice extends Component {
     scene = new THREE.Scene();
 
     var ambientLight = new THREE.AmbientLight(0xffffff);
-    // scene.add(ambientLight);
+    scene.add(ambientLight);
 
     var pointLight = new THREE.PointLight(0xffffff, 0.8);
     pointLight.position.set(25, 50, 25);
@@ -294,7 +294,6 @@ class Dice extends Component {
 
       renderer.setClearColor(this.state.bgColor);
 
-      // d20.rotation.x += this.state.spinSpeed;
       d100.rotation.y += 0.007;
       d20.rotation.y += 0.007;
       d12.rotation.y += 0.007;
