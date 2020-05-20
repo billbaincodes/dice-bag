@@ -9,7 +9,7 @@ import mapStar from '../../assets/stars.jpg'
 
 class Dice extends Component {
   state = {
-    color: 0xfffff,
+    color: 0xffff,
     bgColor: "white",
     spinSpeed: 0.01,
     spinX: 0.00,
@@ -257,7 +257,7 @@ class Dice extends Component {
     trapez2.translate(9, -4, 0);
 
     let dice = [d4, d6, d8, d10, d12, d20, d100];
-    let outlines = [d6Outline]
+    // let outlines = [d6Outline]
     let center = {};
 
     // Center around own axes and add to scene
@@ -270,14 +270,14 @@ class Dice extends Component {
       scene.add(die);
     });
 
-    outlines.forEach(outline => {
-      center[outline] = new THREE.Vector3();
-      outline.geometry.computeBoundingBox();
-      outline.geometry.boundingBox.getCenter(center[outline]);
-      outline.geometry.center();
-      outline.position.copy(center[outline]);
-      scene.add(outline);
-    });
+    // outlines.forEach(outline => {
+    //   center[outline] = new THREE.Vector3();
+    //   outline.geometry.computeBoundingBox();
+    //   outline.geometry.boundingBox.getCenter(center[outline]);
+    //   outline.geometry.center();
+    //   outline.position.copy(center[outline]);
+    //   scene.add(outline);
+    // });
 
     // Render
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -302,9 +302,7 @@ class Dice extends Component {
       d6.rotation.y += 0.007;
       d4.rotation.y += 0.007;
 
-      d6.rotation.x += this.state.spinX;
-
-      d6Outline.rotation.y += 0.007
+      d6.rotation.y += this.state.spinX;
 
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
@@ -326,8 +324,8 @@ class Dice extends Component {
         })
       } else {
         dice.forEach(die => {
-          // die.material = material
-          // die.material.color.setHex(this.state.color);
+          die.material = material
+          die.material.color.setHex(this.state.color);
         })
         // d20.material = material;
         // d20.material.color.setHex(this.state.color);
@@ -364,6 +362,7 @@ class Dice extends Component {
     let color = event.target.value;
     color = color.replace("#", "0x");
     this.setState({ color });
+    console.log('just set', this.state.color);
   }
 
   colorSynth = () => {
