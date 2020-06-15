@@ -9,7 +9,9 @@ import mapStar from '../../assets/stars.jpg'
 
 class Dice extends Component {
   state = {
-    color: 0xffff,
+    activeRoll: ['d20'],
+    color: 0x26b5b0,
+    texture: 'basic',
     bgColor: "white",
     spinSpeed: 0.01,
     spinX: 0.00,
@@ -23,16 +25,12 @@ class Dice extends Component {
     log: false,
     rollLog: [],
     rollQuality: '',
-    texture: {
-      wood: false,
-      metal: false,
-      stone: false,
-    },
     designs: {
       d6: {
         mesh: false,
       }
-    }
+    },
+    multiRoll: false,
   };
 
   spinSpeed = 0.01;
@@ -56,40 +54,38 @@ class Dice extends Component {
   }
 
   setSpeed = () => {
-    // if (this.state.spinSpeed < 0.2) {
-    //   let currSpeed = this.state.spinSpeed;
-    //   this.setState({
-    //     spinSpeed: (currSpeed += 0.05)
-    //   });
-    // } else {
-    //   this.setState({
-    //     spinSpeed: 0.01
-    //   });
-    // }
+    this.setState({
+      activeRoll: 'd6'
+    })
+    setTimeout(() => {
+      this.setState({
+        spinX: this.state.spinX + 0.1
+      })
+    }, 0);
 
-      setTimeout(() => {
-        this.setState({
-          spinX: this.state.spinX + 0.1
-        })
-      }, 0);
+    setTimeout(() => {
+      this.setState({
+        spinX: this.state.spinX + 0.1
+      })
+    }, 100);
 
-      setTimeout(() => {
-        this.setState({
-          spinX: this.state.spinX + 0.1
-        })
-      }, 100);
+    setTimeout(() => {
+      this.setState({
+        spinX: this.state.spinX - 0.1
+      })
+    }, 1000);
 
-      setTimeout(() => {
-        this.setState({
-          spinX: this.state.spinX - 0.1
-        })
-      }, 1000);
+    setTimeout(() => {
+      this.setState({
+        spinX: this.state.spinX - 0.05
+      })
+    }, 1100);
 
-      setTimeout(() => {
-        this.setState({
-          spinX: this.state.spinX - 0.1
-        })
-      }, 1100);
+    setTimeout(() => {
+      this.setState({
+        spinX: this.state.spinX - 0.05
+      })
+    }, 1100);
   }
 
   darkToggle = () => {
@@ -102,9 +98,12 @@ class Dice extends Component {
   roll(die) {
     this.setState({ flash: false })
     let result = Math.ceil(Math.random() * die);
-    this.setState({ roll: result });
     this.rollQuality(result, die);
     this.logRoll(result, die)
+    if (this.state.multiRoll) {
+      result += this.state.roll
+    }
+    this.setState({ roll: result });
     // Quick dirty animation
     setTimeout(() => {
       this.setState({ flash: true });
@@ -140,6 +139,25 @@ class Dice extends Component {
   componentDidMount() {
     this.cameraGen();
     this.pixar();
+    
+    document.addEventListener("keydown", this.shiftStart, false);
+    document.addEventListener("keyup", this.shiftEnd, false);
+  }
+
+  shiftStart = (event) => {
+    console.log({ event });
+    if (event.shiftKey) {
+      console.log('get shifty')
+      this.setState({ multiRoll: true })
+    }
+  }
+
+  shiftEnd = (event) => {
+    console.log({ event });
+    if (event.key === 'Shift') {
+      console.log('stop shiftin')
+      this.setState({ multiRoll: false })
+    }
   }
 
   cameraGen() {
@@ -206,10 +224,10 @@ class Dice extends Component {
 
 
 
-    // Materials
+    // Materials + object container
     const loader = new THREE.TextureLoader();
-    let textureWood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood)});
-    let textureStar = new THREE.MeshStandardMaterial({ map: loader.load(mapStar)})
+    let wood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood)});
+    let star = new THREE.MeshStandardMaterial({ map: loader.load(mapStar)})
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
     let toon = new THREE.MeshToonMaterial()
     let basic = new THREE.MeshStandardMaterial()
@@ -217,8 +235,14 @@ class Dice extends Component {
     let phong = new THREE.MeshPhongMaterial({ color: 'blue', shininess: 120 })
     let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'black' })
 
+
+    const textureList = {
+      wood, star, synthwave, basic, lambert
+    }
     // material = new THREE.MeshStandardMaterial();
-    material = basic
+    material = textureList[this.state.texture]
+    console.log('text', this.state.texture)
+    // material = basic
     let outlineMat = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide})
     let d100 = new THREE.Mesh(trapez2, material);
     let d100top = new THREE.Mesh(trapezTop, material);
@@ -294,15 +318,9 @@ class Dice extends Component {
 
       renderer.setClearColor(this.state.bgColor);
 
-      d100.rotation.y += 0.007;
-      d20.rotation.y += 0.007;
-      d12.rotation.y += 0.007;
-      d10.rotation.y += 0.007;
-      d8.rotation.y += 0.007;
-      d6.rotation.y += 0.007;
-      d4.rotation.y += 0.007;
-
-      d6.rotation.y += this.state.spinX;
+      dice.forEach(die => {
+        die.rotation.y += 0.007
+      })
 
       line.rotation.x += 0.01;
       line.rotation.y += this.state.spinSpeed;
@@ -362,7 +380,6 @@ class Dice extends Component {
     let color = event.target.value;
     color = color.replace("#", "0x");
     this.setState({ color });
-    console.log('just set', this.state.color);
   }
 
   colorSynth = () => {
@@ -395,6 +412,11 @@ class Dice extends Component {
     })
   }
 
+  changeMaterial = (e) => {
+    e.preventDefault();
+    console.log({ e })
+  }
+
   render() {
     return (
       <div>
@@ -409,6 +431,7 @@ class Dice extends Component {
             colorRainbow={this.colorRainbow}
             toggleSettings={this.toggleSettings}
             toggleLog={this.toggleLog}
+            changeMaterial={this.changeMaterial}
           />
         ) : (
           <div
@@ -418,14 +441,16 @@ class Dice extends Component {
             <i className={this.state.settings ? "open fas fa-cog" : "closed fas fa-cog"}></i>
           </div>
         )}
-        {this.state.roll === 0 ? (
-          <p className="roll"> click dice to start</p>
-        ) : (
+        <div class='roll-container d-flex justify-content-center text-align-center'>
           <div className={`roll`} >
-          You rolled
+          { this.state.roll === 0 ? 'Click a die to start' : 
+          <div class='d-flex flex-column align-items-center'>You rolled a
             <div className={this.state.flash ? `flash ${this.state.rollQuality}` : ''}>{this.state.roll} </div>
           </div>
-        )}
+          }
+          </div>
+        </div>
+
         {this.state.log &&
           <RollLog
           toggleLog={this.toggleLog}
