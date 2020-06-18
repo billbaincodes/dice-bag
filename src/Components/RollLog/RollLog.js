@@ -11,7 +11,7 @@ class RollLog extends Component {
       <i className='close' onClick={() => {this.props.toggleLog()}}>x</i>
         <h2>Roll Log:</h2>
         {this.props.rolls.map((roll, idx) => (
-          <div key={`roll-${idx}`} className='row'>
+          <div key={`roll-${idx}`} className='my-row'>
             <span>{roll.date}</span>
             <div className='roll-value'>
               <div>{roll.roll}</div>

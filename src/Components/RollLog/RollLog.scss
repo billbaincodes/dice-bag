@@ -8,6 +8,7 @@
   border: 1px solid black;
   overflow: scroll;
   padding: 0.5rem;
+  margin-left: 1rem;
 }
 
 h2 {
@@ -15,7 +16,7 @@ h2 {
   margin: 0.2rem;
 }
 
-.row {
+.my-row {
   display: flex;
   justify-content: space-between;
   margin: 0 0.4rem;
