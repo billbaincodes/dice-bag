@@ -98,11 +98,13 @@ class Dice extends Component {
   roll(die) {
     this.setState({ flash: false })
     let result = Math.ceil(Math.random() * die);
+    let multi = this.state.multiRoll
     this.rollQuality(result, die);
-    this.logRoll(result, die)
-    if (this.state.multiRoll) {
+    // this.logRoll(result, die)
+    if (multi) {
       result += this.state.roll
     }
+    this.logRoll(result, die, multi);
     this.setState({ roll: result });
     // Quick dirty animation
     setTimeout(() => {
@@ -110,9 +112,9 @@ class Dice extends Component {
     }, 1)
   }
 
-  logRoll(roll, die) {
+  logRoll(roll, die, multi) {
     let date = new Date().toLocaleTimeString()
-    this.state.rollLog.unshift({ roll, die, date });
+    this.state.rollLog.unshift({ roll, die, date, multi });
   }
 
   rollQuality(roll, die) {
