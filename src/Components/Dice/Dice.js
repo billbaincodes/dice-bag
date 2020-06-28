@@ -11,7 +11,7 @@ class Dice extends Component {
   state = {
     activeRoll: ['d20'],
     color: 0x26b5b0,
-    texture: 'basic',
+    texture: 'wood',
     bgColor: "white",
     spinSpeed: 0.01,
     spinX: 0.00,
@@ -228,8 +228,8 @@ class Dice extends Component {
 
     // Materials + object container
     const loader = new THREE.TextureLoader();
-    let wood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood)});
-    let star = new THREE.MeshStandardMaterial({ map: loader.load(mapStar)})
+    let wood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood), color: 'green', name: 'wood'});
+    let star = new THREE.MeshStandardMaterial({ map: loader.load(mapStar), name: 'star'})
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
     let toon = new THREE.MeshToonMaterial()
     let basic = new THREE.MeshStandardMaterial()
@@ -242,7 +242,7 @@ class Dice extends Component {
       wood, star, synthwave, basic, lambert
     }
     // material = new THREE.MeshStandardMaterial();
-    material = textureList[this.state.texture]
+    material = wood;
     console.log('text', this.state.texture)
     // material = basic
     let outlineMat = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide})
@@ -344,7 +344,7 @@ class Dice extends Component {
         })
       } else {
         dice.forEach(die => {
-          die.material = material
+          die.material = textureList[this.state.texture]
           die.material.color.setHex(this.state.color);
         })
         // d20.material = material;
@@ -415,8 +415,9 @@ class Dice extends Component {
   }
 
   changeMaterial = (e) => {
-    e.preventDefault();
-    console.log({ e })
+    let selection = e.substring(8)
+    console.log({ selection });
+    this.setState({ texture: selection });
   }
 
   render() {

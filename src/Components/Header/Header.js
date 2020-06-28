@@ -26,12 +26,12 @@ class Header extends Component {
               </input>
             </div>
             <NavDropdown onSelect={(e) => this.props.changeMaterial(e)} title="Materials" id="basic-nav-dropdown">
-              <NavDropdown.Item href='basic'>Plastic</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2" value='wood'>Wood</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Metal</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Stars</NavDropdown.Item>
+              <NavDropdown.Item href='#action/basic'>Plastic</NavDropdown.Item>
+              <NavDropdown.Item href="#action/wood" value='wood'>Wood</NavDropdown.Item>
+              <NavDropdown.Item href="#action/metal">Metal</NavDropdown.Item>
+              <NavDropdown.Item href="#action/star">Stars</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+              {/* <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
             </NavDropdown>
             <NavDropdown title="Special ; )&nbsp;" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Rainbow</NavDropdown.Item>
