@@ -6,6 +6,7 @@ import Header from '../Header/Header'
 
 import mapWood from '../../assets/wood.png'
 import mapStar from '../../assets/stars.jpg'
+import mapMetal from '../../assets/metal.jpg'
 
 class Dice extends Component {
   state = {
@@ -228,18 +229,19 @@ class Dice extends Component {
 
     // Materials + object container
     const loader = new THREE.TextureLoader();
-    let wood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood), color: 'green', name: 'wood'});
+    let wood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood), name: 'wood'});
     let star = new THREE.MeshStandardMaterial({ map: loader.load(mapStar), name: 'star'})
+    let metal = new THREE.MeshStandardMaterial({ map: loader.load(mapMetal), name: 'metal'})
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
     let toon = new THREE.MeshToonMaterial()
     let basic = new THREE.MeshStandardMaterial()
-    let lambert = new THREE.MeshLambertMaterial({ flatShading: true, color: 'red', emissive: 'black', shininess: 140 });
+    let lambert = new THREE.MeshLambertMaterial({ flatShading: false, color: 'red', emissive: 'red', shininess: 30 });
     let phong = new THREE.MeshPhongMaterial({ color: 'blue', shininess: 120 })
     let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'black' })
 
 
     const textureList = {
-      wood, star, synthwave, basic, lambert
+      wood, star, synthwave, basic, lambert, metal
     }
     // material = new THREE.MeshStandardMaterial();
     material = wood;
