@@ -33,10 +33,10 @@ class Header extends Component {
               <NavDropdown.Divider />
               {/* <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
             </NavDropdown>
-            <NavDropdown title="Special ; )&nbsp;" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Rainbow</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">Synthwave</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Galaxy</NavDropdown.Item>
+            <NavDropdown onSelect={(e) => this.props.changeSpecial(e)} title="Special ; )&nbsp;" id="basic-nav-dropdown">
+              <NavDropdown.Item href="#action/synthwave">Synthwave</NavDropdown.Item>
+              <NavDropdown.Item href="#action/rainbow">Rainbow</NavDropdown.Item>
+              <NavDropdown.Item href="#action/tron">Tron</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
             </NavDropdown>

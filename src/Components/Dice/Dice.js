@@ -16,6 +16,7 @@ class Dice extends Component {
     bgColor: "white",
     spinSpeed: 0.01,
     spinX: 0.00,
+    special: null,
     synthwave: false,
     rainbow: false,
     roll: 0,
@@ -336,12 +337,13 @@ class Dice extends Component {
       var color = new THREE.Color(`hsl(${hue}, 100%, 50%)`);
       line.material.color.set(color);
 
-      if (this.state.synthwave) {
+      if (this.state.special == 'synthwave') {
         dice.forEach(die => {
           die.material = synthwave;
         })
-      } else if (this.state.rainbow) {
+      } else if (this.state.special == 'rainbow') {
         dice.forEach(die => {
+          die.material = textureList['basic'];
           die.material.color.set(color);
         })
       } else {
@@ -386,6 +388,14 @@ class Dice extends Component {
     this.setState({ color });
   }
 
+  changeSpecial = (event) => {
+    let selection = event.substring(8)
+    console.log({ event });
+    this.setState({
+      special: selection
+    })
+  }
+
   colorSynth = () => {
     this.setState({
       synthwave: !this.state.synthwave,
@@ -419,7 +429,10 @@ class Dice extends Component {
   changeMaterial = (e) => {
     let selection = e.substring(8)
     console.log({ selection });
-    this.setState({ texture: selection });
+    this.setState({
+      special: null,
+      texture: selection,
+    });
   }
 
   render() {
@@ -437,6 +450,7 @@ class Dice extends Component {
             toggleSettings={this.toggleSettings}
             toggleLog={this.toggleLog}
             changeMaterial={this.changeMaterial}
+            changeSpecial={this.changeSpecial}
           />
         ) : (
           <div
