@@ -337,11 +337,11 @@ class Dice extends Component {
       var color = new THREE.Color(`hsl(${hue}, 100%, 50%)`);
       line.material.color.set(color);
 
-      if (this.state.special == 'synthwave') {
+      if (this.state.special === 'synthwave') {
         dice.forEach(die => {
           die.material = synthwave;
         })
-      } else if (this.state.special == 'rainbow') {
+      } else if (this.state.special === 'rainbow') {
         dice.forEach(die => {
           die.material = textureList['basic'];
           die.material.color.set(color);
@@ -351,8 +351,6 @@ class Dice extends Component {
           die.material = textureList[this.state.texture]
           die.material.color.setHex(this.state.color);
         })
-        // d20.material = material;
-        // d20.material.color.setHex(this.state.color);
       }
       d6.material.needsUpdate = true;
       renderer.render(scene, this.camera);
@@ -393,18 +391,6 @@ class Dice extends Component {
     console.log({ event });
     this.setState({
       special: selection
-    })
-  }
-
-  colorSynth = () => {
-    this.setState({
-      synthwave: !this.state.synthwave,
-    });
-  }
-
-  colorRainbow = () => {
-    this.setState({
-      rainbow: !this.state.rainbow,
     })
   }
 
