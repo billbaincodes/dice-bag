@@ -238,11 +238,11 @@ class Dice extends Component {
     let basic = new THREE.MeshStandardMaterial()
     let lambert = new THREE.MeshLambertMaterial({ flatShading: false, color: 'red', emissive: 'red', shininess: 30 });
     let phong = new THREE.MeshPhongMaterial({ color: 'blue', shininess: 120 })
-    let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'black' })
+    let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'blue' })
 
 
     const textureList = {
-      wood, star, synthwave, basic, lambert, metal
+      wood, star, synthwave, basic, lambert, metal, tron
     }
     // material = new THREE.MeshStandardMaterial();
     material = wood;
@@ -345,6 +345,10 @@ class Dice extends Component {
         dice.forEach(die => {
           die.material = textureList['basic'];
           die.material.color.set(color);
+        })
+      } else if (this.state.special === 'tron') {
+        dice.forEach(die => {
+          die.material = textureList['tron']
         })
       } else {
         dice.forEach(die => {
