@@ -17,7 +17,7 @@ class Header extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <button onClick={() => this.props.setSpeed()}>Faster!</button>
+            {/* <button onClick={() => this.props.setSpeed()}>Faster!</button> */}
             <div class='color-set d-flex'>
               <label htmlFor="color-set">Choose Color: </label>
               <input onChange={(e) => this.props.colorSet(e)}
@@ -30,22 +30,21 @@ class Header extends Component {
               <NavDropdown.Item href="#action/wood" value='wood'>Wood</NavDropdown.Item>
               <NavDropdown.Item href="#action/metal">Metal</NavDropdown.Item>
               <NavDropdown.Item href="#action/star">Stars</NavDropdown.Item>
-              <NavDropdown.Divider />
+              {/* <NavDropdown.Divider /> */}
               {/* <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
             </NavDropdown>
             <NavDropdown onSelect={(e) => this.props.changeSpecial(e)} title="Special ; )&nbsp;" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/synthwave">Synthwave</NavDropdown.Item>
               <NavDropdown.Item href="#action/rainbow">Rainbow</NavDropdown.Item>
               <NavDropdown.Item href="#action/tron">Tron</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+              {/* <NavDropdown.Divider /> */}
+              {/* <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item> */}
             </NavDropdown>
             <NavDropdown title="System" id="basic-nav-dropdown">
               <NavDropdown.Item onClick={() => this.props.darkToggle()}>Dark Mode</NavDropdown.Item>
               <NavDropdown.Item onClick={() => this.props.toggleLog()} href="#action/3.2">Roll Log</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">Hide Settings</NavDropdown.Item>
+              {/* <NavDropdown.Divider /> */}
+              {/* <NavDropdown.Item href="#action/3.4">Hide Settings</NavDropdown.Item> */}
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

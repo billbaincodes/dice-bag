@@ -8,7 +8,7 @@ class RollLog extends Component {
   render() {
     return (
       <div className="log">
-      <i className='close' onClick={() => {this.props.toggleLog()}}>x</i>
+        <i className='close' onClick={() => {this.props.toggleLog()}}>x</i>
         <h2>Roll Log:</h2>
         {this.props.rolls.map((roll, idx) => (
           <div key={`roll-${idx}`} className={roll.multi ? 'multi my-row' : 'my-row'}>

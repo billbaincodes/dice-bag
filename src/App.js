@@ -11,8 +11,8 @@ function App() {
 
   return (
     <div className="App">
-        {/* <Dice /> */}
-        <Bag />
+        <Dice />
+        {/* <Bag /> */}
         {/* <Skills /> */}
     </div>
   );
