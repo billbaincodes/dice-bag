@@ -7,11 +7,12 @@ import Header from '../Header/Header'
 import mapWood from '../../assets/wood.png'
 import mapStar from '../../assets/stars.jpg'
 import mapMetal from '../../assets/metal.jpg'
+import mapWater from '../../assets/water.jpg'
 
 class Dice extends Component {
   state = {
     activeRoll: ['d20'],
-    color: 0x26b5b0,
+    color: 0xdbd444,
     texture: 'wood',
     bgColor: "white",
     spinSpeed: 0.01,
@@ -231,18 +232,19 @@ class Dice extends Component {
     // Materials + object container
     const loader = new THREE.TextureLoader();
     let wood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood), name: 'wood'});
-    let star = new THREE.MeshStandardMaterial({ map: loader.load(mapStar), name: 'star'})
-    let metal = new THREE.MeshStandardMaterial({ map: loader.load(mapMetal), name: 'metal'})
+    let star = new THREE.MeshStandardMaterial({ map: loader.load(mapStar), name: 'star'});
+    let metal = new THREE.MeshStandardMaterial({ map: loader.load(mapMetal), name: 'metal'});
+    let water = new THREE.MeshStandardMaterial({ map: loader.load(mapWater), name: 'water'});
     let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
-    let toon = new THREE.MeshToonMaterial()
-    let basic = new THREE.MeshStandardMaterial()
+    // let toon = new THREE.MeshToonMaterial()
+    let basic = new THREE.MeshStandardMaterial();
     let lambert = new THREE.MeshLambertMaterial({ flatShading: false, color: 'red', emissive: 'red', shininess: 30 });
-    let phong = new THREE.MeshPhongMaterial({ color: 'blue', shininess: 120 })
-    let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'blue' })
+    // let phong = new THREE.MeshPhongMaterial({ color: 'blue', shininess: 120 })
+    let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'blue' });
 
 
     const textureList = {
-      wood, star, synthwave, basic, lambert, metal, tron
+      wood, star, synthwave, basic, lambert, metal, tron, water
     }
     // material = new THREE.MeshStandardMaterial();
     material = wood;
@@ -356,7 +358,7 @@ class Dice extends Component {
           die.material.color.setHex(this.state.color);
         })
       }
-      d6.material.needsUpdate = true;
+      // d6.material.needsUpdate = true;
       renderer.render(scene, this.camera);
     };
 
