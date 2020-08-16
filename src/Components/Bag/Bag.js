@@ -44,7 +44,7 @@ class Bag extends Component {
         </div> */}
         <div class='main'>
           <Customizer 
-            bag={this.state.selectedBag}
+            set={this.state.selectedBag}
           />
         </div>
       </div>
