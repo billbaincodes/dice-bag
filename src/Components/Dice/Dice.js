@@ -176,20 +176,18 @@ class Dice extends Component {
   }
 
   pixar() {
-    let scene, renderer;
-    let material, line;
+    let scene, renderer, material, line;
     let lineColor = this.state.color;
 
+    // Init scene
     scene = new THREE.Scene();
 
+    // Lighting
     var ambientLight = new THREE.AmbientLight(0xffffff);
     scene.add(ambientLight);
-
     var pointLight = new THREE.PointLight(0xffffff, 0.8);
     pointLight.position.set(25, 50, 25);
     scene.add(pointLight);
-
-
 
     // Polygon
     let poly = new THREE.IcosahedronGeometry(2, 0);
@@ -206,7 +204,6 @@ class Dice extends Component {
     let tetra = new THREE.TetrahedronGeometry(1, 0);
     let octa = new THREE.OctahedronGeometry(1, 0);
     let cube = new THREE.BoxGeometry(1, 0);
-    let cubeOutline = new THREE.BoxGeometry(1, 0);
     let trapezTop = new THREE.ConeGeometry(1, 1, 6);
     let trapezBot = new THREE.ConeGeometry(1, 1, 6);
     let trapez = new THREE.Geometry();
@@ -214,43 +211,7 @@ class Dice extends Component {
     let trapezBot2 = new THREE.ConeGeometry(1, 1, 6);
     let trapez2 = new THREE.Geometry();
 
-    icosa.translate(6, -4, 0);
-    dodeca.translate(3, -4, 0);
-    octa.translate(-3, -4, 0);
-    cube.translate(-6, -4, 0);
-    cubeOutline.translate(-6, -4, 0);
-    tetra.translate(-9, -4, 0);
-    trapezBot.rotateX(Math.PI);
-    trapezTop.translate(0, 0.5, 0);
-    trapezBot.translate(0, -0.5, 0);
-    trapezBot2.rotateX(Math.PI);
-    trapezTop2.translate(0, 0.5, 0);
-    trapezBot2.translate(0, -0.5, 0);
-
-
-
-    // Materials + object container
-    const loader = new THREE.TextureLoader();
-    let wood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood), name: 'wood'});
-    let star = new THREE.MeshStandardMaterial({ map: loader.load(mapStar), name: 'star'});
-    let metal = new THREE.MeshStandardMaterial({ map: loader.load(mapMetal), name: 'metal'});
-    let water = new THREE.MeshStandardMaterial({ map: loader.load(mapWater), name: 'water'});
-    let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
-    // let toon = new THREE.MeshToonMaterial()
-    let basic = new THREE.MeshStandardMaterial();
-    let lambert = new THREE.MeshLambertMaterial({ flatShading: false, color: 'red', emissive: 'red', shininess: 30 });
-    // let phong = new THREE.MeshPhongMaterial({ color: 'blue', shininess: 120 })
-    let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'blue' });
-
-
-    const textureList = {
-      wood, star, synthwave, basic, lambert, metal, tron, water
-    }
-    // material = new THREE.MeshStandardMaterial();
-    material = wood;
-    console.log('text', this.state.texture)
-    // material = basic
-    let outlineMat = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide})
+    // Meshes
     let d100 = new THREE.Mesh(trapez2, material);
     let d100top = new THREE.Mesh(trapezTop, material);
     let d100bot = new THREE.Mesh(trapezBot, material);
@@ -263,44 +224,51 @@ class Dice extends Component {
     let d6 = new THREE.Mesh(cube, material);
     let d4 = new THREE.Mesh(tetra, material);
 
-
-    let d6Outline = new THREE.Mesh(cubeOutline, outlineMat)
-    d6Outline.scale.set(1.08, 1.08, 1.08);
-    d6Outline.translateX(10)
-    // d6Outline.position = cube.position
-    // scene.add(d6Outline);
-
-
-    d100.name = "100";
-    d20.name = "20";
-    d12.name = "12";
-    d10.name = "10";
-    d8.name = "8";
-    d6.name = "6";
-    d4.name = "4";
-
+    // Arrange die by ascending val
+    icosa.translate(6, -4, 0);
+    dodeca.translate(3, -4, 0);
+    octa.translate(-3, -4, 0);
+    cube.translate(-6, -4, 0);
+    tetra.translate(-9, -4, 0);
+    trapezBot.rotateX(Math.PI);
+    trapezTop.translate(0, 0.5, 0);
+    trapezBot.translate(0, -0.5, 0);
+    trapezBot2.rotateX(Math.PI);
+    trapezTop2.translate(0, 0.5, 0);
+    trapezBot2.translate(0, -0.5, 0);
     trapez.merge(d10top.geometry, d10top.matrix);
     trapez.merge(d10bot.geometry, d10bot.matrix);
     trapez.translate(0, -4, 0);
-
     trapez2.merge(d100top.geometry, d100top.matrix);
     trapez2.merge(d100bot.geometry, d100bot.matrix);
     trapez2.translate(9, -4, 0);
 
-    let dice = [d4, d6, d8, d10, d12, d20, d100];
+    // Materials
+    const loader = new THREE.TextureLoader();
+    let wood = new THREE.MeshStandardMaterial({ map: loader.load(mapWood), name: 'wood'});
+    let star = new THREE.MeshStandardMaterial({ map: loader.load(mapStar), name: 'star'});
+    let metal = new THREE.MeshStandardMaterial({ map: loader.load(mapMetal), name: 'metal'});
+    let water = new THREE.MeshStandardMaterial({ map: loader.load(mapWater), name: 'water'});
+    let synthwave = new THREE.MeshNormalMaterial({ wireframe: false });
+    let basic = new THREE.MeshStandardMaterial();
+    let lambert = new THREE.MeshLambertMaterial({ flatShading: false, color: 'red', emissive: 'red', shininess: 30 });
+    let tron = new THREE.MeshNormalMaterial({ wireframe: true, color:'blue' });
+    const textureList = {
+      wood, star, synthwave, basic, lambert, metal, tron, water
+    }
+    material = wood;
+
+    // OUTLINES
+    // let toon = new THREE.MeshToonMaterial()
+    // let outlineMat = new THREE.MeshBasicMaterial({ color: 'black', side: THREE.BackSide})
+    // let d6Outline = new THREE.Mesh(cubeOutline, outlineMat)
+    // d6Outline.scale.set(1.08, 1.08, 1.08);
+    // d6Outline.translateX(10)
+    // d6Outline.position = cube.position
+    // scene.add(d6Outline);
+    // let cubeOutline = new THREE.BoxGeometry(1, 0);
+    // cubeOutline.translate(-6, -4, 0);
     // let outlines = [d6Outline]
-    let center = {};
-
-    // Center around own axes and add to scene
-    dice.forEach(die => {
-      center[die] = new THREE.Vector3();
-      die.geometry.computeBoundingBox();
-      die.geometry.boundingBox.getCenter(center[die]);
-      die.geometry.center();
-      die.position.copy(center[die]);
-      scene.add(die);
-    });
-
     // outlines.forEach(outline => {
     //   center[outline] = new THREE.Vector3();
     //   outline.geometry.computeBoundingBox();
@@ -309,6 +277,27 @@ class Dice extends Component {
     //   outline.position.copy(center[outline]);
     //   scene.add(outline);
     // });
+
+    // Assign names for raycasting
+    d100.name = "100";
+    d20.name = "20";
+    d12.name = "12";
+    d10.name = "10";
+    d8.name = "8";
+    d6.name = "6";
+    d4.name = "4";
+    let dice = [d4, d6, d8, d10, d12, d20, d100];
+
+    // Center around own axes and add to scene
+    let center = {};
+    dice.forEach(die => {
+      center[die] = new THREE.Vector3();
+      die.geometry.computeBoundingBox();
+      die.geometry.boundingBox.getCenter(center[die]);
+      die.geometry.center();
+      die.position.copy(center[die]);
+      scene.add(die);
+    });
 
     // Render
     renderer = new THREE.WebGLRenderer({ antialias: true });
