@@ -452,6 +452,12 @@ class Dice extends Component {
             <i className={this.state.settings ? "open fas fa-cog" : "closed fas fa-cog"}></i>
           </div>
         )}
+        {this.state.log &&
+          <RollLog
+          toggleLog={this.toggleLog}
+          rolls={this.state.rollLog}
+        />
+        }
         <div class='roll-container d-flex justify-content-center text-align-center'>
           <div className={`roll`} >
           { this.state.roll === 0 ? 'Click a die to start' : 
@@ -461,14 +467,6 @@ class Dice extends Component {
           }
           </div>
         </div>
-
-        {this.state.log &&
-          <RollLog
-          toggleLog={this.toggleLog}
-          rolls={this.state.rollLog}
-        />
-        }
-
       </div>
     );
   }
