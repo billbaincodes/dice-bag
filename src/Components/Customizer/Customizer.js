@@ -25,16 +25,26 @@ class Customizer extends Component {
     console.log('constructing')
     super(props);
     this.state = {
-      name: this.props.bag.name,
+      name: this.props.set.name,
       color: 0xeb4034,
       material: 'basic',
       current: 'd20',
+      dice: {
+        d4: { material: 'basic', color: 0xeb4034, special: null },
+        d6: { material: 'basic', color: 0xeb4034, special: null },
+        d8: { material: 'basic', color: 0xeb4034, special: null },
+        d10: { material: 'basic', color: 0xA4051, special: null },
+        d12: { material: 'basic', color: 0xeb4034, special: null },
+        d20: { material: 'basic', color: 0xeb4034, special: null },
+        d100: { material: 'basic', color: 0xeb4034, special: null },
+      },
+      debounce: 0,
     };
   }
 
   componentDidMount() {
     console.log(' mountin ');
-    this.setState({ name: this.props.bag.name });
+    this.setState({ name: this.props.set.name });
     this.pixar();
   }
 
@@ -111,11 +121,12 @@ class Customizer extends Component {
 
     // Apply config from state
     let dice = { d4, d6, d8, d10, d12, d20, d100 };
-    let selection = dice[this.state.current]
-    selection.material = textureList[this.state.material];
-    selection.material.color.setHex(this.state.color);
-    scene.add(selection)
-    selection.rotation.x = 0.35
+    let dieModel = dice[this.state.current]
+    let dieConfig = this.state.dice[this.state.current]
+    dieModel.material = textureList[dieConfig.material];
+    dieModel.material.color.setHex(dieConfig.color);
+    scene.add(dieModel)
+    dieModel.rotation.x = 0.35
 
     // Render
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -124,24 +135,29 @@ class Customizer extends Component {
     document.body.appendChild(renderer.domElement);
 
     const animate = () => {
-      requestAnimationFrame(animate)
+      // requestAnimationFrame(animate)
       renderer.render(scene, camera);
-      selection.rotation.y += 0.002
+      // dieModel.rotation.y += 0.002
     };
 
     animate();
   }
 
   materialPicker(event){
-    console.log('mat', event.target.value);
-    // this.setState({ material })
+    const material = event.target.value;
+    let config = this.state.dice[this.state.current]
+    config.material = material;
+    this.setState({ [config]: config }, () => {
+      this.pixar();
+    })
   }
 
-  // TODO: Debounce
-  colorPicker(event){
+  colorPicker(event) {
     let color = event.target.value;
     color = color.replace("#", "0x");
-    this.setState({ color }, () => {
+    let config = this.state.dice[this.state.current]
+    config.color = color;
+    this.setState({ [config]: config }, () => {
       this.pixar();
     })
   }
@@ -152,13 +168,32 @@ class Customizer extends Component {
     })
   }
 
+  // Debounce in case they drag color picker
+  // TODO: Improve debounce, maybe lodash?
+  debounce = (color) => {
+    if (this.state.debounce) {
+      return console.log('too early son')
+    }
+    console.log('fine set color');
+    this.colorPicker(color);
+    this.setState({debounce: true});
+    setTimeout(() => {
+      this.setState({ debounce: false })
+    }, 400)
+  };
+
+
+  save = () => {
+    const config = this.state.dice;
+    console.log({ config });
+  }
 
   render() {
-    const { bag } = this.props;
+    const { set } = this.props;
     return (
       <div>
         <div class='main'>
-          <h2>{bag.name}</h2>
+          <h2>{set.name}</h2>
           <div>
             <button onClick={() => this.diePicker('d4')}>d4</button>
             <button onClick={() => this.diePicker('d6')}>d6</button>
@@ -173,13 +208,13 @@ class Customizer extends Component {
               <div class='color-set d-flex'>
                 <label htmlFor="color-set">Choose Color:&nbsp;</label>
                 <input
-                  onChange={(event) => this.colorPicker(event)}
+                  onChange={(event) => this.debounce(event)}
                   id="color-set"
                   type="color">
                 </input>
               </div>
               <label>Select a Texture:&nbsp;</label>
-              <select onSelect={() => this.materialPicker()}>
+              <select onChange={(event) => this.materialPicker(event)}>
                 <option value='plastic'>Plastic</option>
                 <option value='metal'>Metal</option>
                 <option value='wood'>Wood</option>
@@ -190,10 +225,14 @@ class Customizer extends Component {
           <div>
             <label>Special:&nbsp;</label>
             <select>
-              <option value='rainbow'>Rainbow</option>
+              {/* <option value='rainbow'>Rainbow</option> */}
               <option value='plastic'>Tron</option>
               <option value='plastic'>SynthWave</option>
             </select>
+          </div>
+          <div>
+            <button onClick={this.save}>Save</button>
+            <button>Apply all</button>
           </div>
         </div>
       </div>
