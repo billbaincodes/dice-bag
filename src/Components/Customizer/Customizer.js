@@ -108,8 +108,13 @@ class Customizer extends Component {
     let dice = { d4, d6, d8, d10, d12, d20, d100 };
     let dieModel = dice[this.state.current]
     let dieConfig = this.state.dice[this.state.current]
-    dieModel.material = textureList[dieConfig.material];
-    dieModel.material.color.setHex(dieConfig.color);
+
+    if (dieConfig.special) {
+      dieModel.material = textureList[dieConfig.special];
+    } else {
+      dieModel.material = textureList[dieConfig.material];
+      dieModel.material.color.setHex(dieConfig.color);
+    }
     scene.add(dieModel)
     dieModel.rotation.x = 0.35
 
@@ -128,6 +133,16 @@ class Customizer extends Component {
     animate();
   }
 
+  specialPicker(event){
+    const special = event.target.value;
+    let config = this.state.dice[this.state.current]
+    config.special = special;
+    this.setState({ [config]: config }, () => {
+      this.pixar();
+    })
+  }
+
+  // Protip: Material won't load if you never request animation frame
   materialPicker(event){
     const material = event.target.value;
     let config = this.state.dice[this.state.current]
@@ -200,7 +215,7 @@ class Customizer extends Component {
               </div>
               <label>Select a Texture:&nbsp;</label>
               <select onChange={(event) => this.materialPicker(event)}>
-                <option value='plastic'>Plastic</option>
+                <option value='basic'>Plastic</option>
                 <option value='metal'>Metal</option>
                 <option value='wood'>Wood</option>
                 <option value='star'>Star</option>
@@ -209,7 +224,7 @@ class Customizer extends Component {
           </form>
           <div>
             <label>Special:&nbsp;</label>
-            <select>
+            <select onChange={(event) => this.specialPicker(event)}>
               {/* <option value='rainbow'>Rainbow</option> */}
               <option value=''>None</option>
               <option value='tron'>Tron</option>
