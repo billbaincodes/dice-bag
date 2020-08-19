@@ -29,20 +29,20 @@ class Bag extends Component {
 
   render() {
     return (
-      <div class='grid'>
-        <div class='panel'>
+      <div className='grid'>
+        <div className='panel'>
         <button>Profile Setup</button>
           {bag.map(set => (
-            <button onClick={() => this.setChooser(set.id)}>{set.name}</button>
+            <button key={`set-${set.id}`} onClick={() => this.setChooser(set.id)}>{set.name}</button>
           ))}
         </div>
-        {/* <div class='main'>
+        {/* <div className='main'>
           <input value='username'></input>
           <button>Sign In</button>
           <input value='username'></input>
           <button>Create User</button>
         </div> */}
-        <div class='main'>
+        <div className='main'>
           <Customizer 
             set={this.state.selectedBag}
           />

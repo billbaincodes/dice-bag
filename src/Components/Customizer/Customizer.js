@@ -8,17 +8,6 @@ import mapStar from '../../assets/stars.jpg'
 import mapMetal from '../../assets/metal.jpg'
 import mapWater from '../../assets/water.jpg'
 
-
-const dice = {
-  d4: { material: 'basic', color: 'blue' },
-  d6: { material: 'basic', color: 'blue' },
-  d8: { material: 'basic', color: 'blue' },
-  d10: { material: 'basic', color: 'blue' },
-  d12: { material: 'basic', color: 'blue' },
-  d20: { material: 'basic', color: 'blue' },
-  d100: { material: 'basic', color: 'blue' },
-}
-
 class Customizer extends Component {
 
   constructor(props) {
@@ -26,8 +15,6 @@ class Customizer extends Component {
     super(props);
     this.state = {
       name: this.props.set.name,
-      color: 0xeb4034,
-      material: 'basic',
       current: 'd20',
       dice: {
         d4: { material: 'basic', color: 0xeb4034, special: null },
@@ -43,8 +30,6 @@ class Customizer extends Component {
   }
 
   componentDidMount() {
-    console.log(' mountin ');
-    this.setState({ name: this.props.set.name });
     this.pixar();
   }
 
@@ -192,7 +177,7 @@ class Customizer extends Component {
     const { set } = this.props;
     return (
       <div>
-        <div class='main'>
+        <div className='main'>
           <h2>{set.name}</h2>
           <div>
             <button onClick={() => this.diePicker('d4')}>d4</button>
@@ -205,7 +190,7 @@ class Customizer extends Component {
           </div>
           <form>
             <div>
-              <div class='color-set d-flex'>
+              <div className='color-set d-flex'>
                 <label htmlFor="color-set">Choose Color:&nbsp;</label>
                 <input
                   onChange={(event) => this.debounce(event)}
@@ -226,8 +211,9 @@ class Customizer extends Component {
             <label>Special:&nbsp;</label>
             <select>
               {/* <option value='rainbow'>Rainbow</option> */}
-              <option value='plastic'>Tron</option>
-              <option value='plastic'>SynthWave</option>
+              <option value=''>None</option>
+              <option value='tron'>Tron</option>
+              <option value='synthwave'>SynthWave</option>
             </select>
           </div>
           <div>
