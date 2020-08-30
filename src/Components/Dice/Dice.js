@@ -150,17 +150,13 @@ class Dice extends Component {
   }
 
   shiftStart = (event) => {
-    console.log({ event });
     if (event.shiftKey) {
-      console.log('get shifty')
       this.setState({ multiRoll: true })
     }
   }
 
   shiftEnd = (event) => {
-    console.log({ event });
     if (event.key === 'Shift') {
-      console.log('stop shiftin')
       this.setState({ multiRoll: false })
     }
   }
@@ -383,7 +379,6 @@ class Dice extends Component {
 
   changeSpecial = (event) => {
     let selection = event.substring(8)
-    console.log({ event });
     this.setState({
       special: selection
     })
@@ -409,7 +404,6 @@ class Dice extends Component {
 
   changeMaterial = (e) => {
     let selection = e.substring(8)
-    console.log({ selection });
     this.setState({
       special: null,
       texture: selection,
