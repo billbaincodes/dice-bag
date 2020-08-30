@@ -11,20 +11,11 @@ import mapWater from '../../assets/water.jpg'
 class Customizer extends Component {
 
   constructor(props) {
-    console.log('constructing')
     super(props);
     this.state = {
       name: this.props.set.name,
       current: 'd20',
-      dice: {
-        d4: { material: 'basic', color: 0xeb4034, special: null },
-        d6: { material: 'basic', color: 0xeb4034, special: null },
-        d8: { material: 'basic', color: 0xeb4034, special: null },
-        d10: { material: 'basic', color: 0xA4051, special: null },
-        d12: { material: 'basic', color: 0xeb4034, special: null },
-        d20: { material: 'basic', color: 0xeb4034, special: null },
-        d100: { material: 'basic', color: 0xeb4034, special: null },
-      },
+      dice: this.props.set.dice,
       debounce: 0,
     };
   }
@@ -208,13 +199,19 @@ class Customizer extends Component {
               <div className='color-set d-flex'>
                 <label htmlFor="color-set">Choose Color:&nbsp;</label>
                 <input
+                  className={this.state.dice[this.state.current].special ? 'disabled' : ''}
+                  disabled={this.state.dice[this.state.current].special}
+                  value={this.state.dice[this.state.current].color.replace("0x", "#")}
                   onChange={(event) => this.debounce(event)}
                   id="color-set"
                   type="color">
                 </input>
               </div>
               <label>Select a Texture:&nbsp;</label>
-              <select onChange={(event) => this.materialPicker(event)}>
+              <select 
+                value={this.state.dice[this.state.current].material}
+                onChange={(event) => this.materialPicker(event)}
+                disabled={this.state.dice[this.state.current].special}>
                 <option value='basic'>Plastic</option>
                 <option value='metal'>Metal</option>
                 <option value='wood'>Wood</option>

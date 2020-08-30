@@ -8,15 +8,18 @@ const bag = [
 ]
 
 class Bag extends Component {
-  componentDidMount() {
+
+  constructor(props){
+    super(props)
+    this.state={
+      bag: this.props.bag,
+      selectedBag: this.props.bag[0],
+    }
   }
 
-  state = {
-    bag: [
-      { id: 1, name: 'my dice 1' },
-      { id: 2, name: 'my dice 2' }
-    ],
-    selectedBag: bag[0]
+  resubscribe() {
+    fetch('http://localhost:3300/bag')
+      .then(res => res.json()).then(result => console.log({ result }));
   }
 
   setChooser = (id) => {
@@ -32,7 +35,7 @@ class Bag extends Component {
       <div className='grid'>
         <div className='panel'>
         <button>Profile Setup</button>
-          {bag.map(set => (
+          {this.props.bag.map(set => (
             <button key={`set-${set.id}`} onClick={() => this.setChooser(set.id)}>{set.name}</button>
           ))}
         </div>
