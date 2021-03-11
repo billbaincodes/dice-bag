@@ -7,3 +7,7 @@ A bag of 3D dice for gaming purposes. Color and texture can be customized, as we
 React framework
 
 [Threejs](https://threejs.org/) library for rendering
+
+### Deployment
+
+http://dicebag.surge.sh/
