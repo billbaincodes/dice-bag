@@ -13,7 +13,7 @@
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.12.0",
-    "react-scripts": "^3.4.3",
+    "react-scripts": "^5.0.1",
     "sass": "^1.26.3",
     "three": "^0.125.0"
   },
@@ -40,6 +40,6 @@
     ]
   },
   "devDependencies": {
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.8"
   }
 }
